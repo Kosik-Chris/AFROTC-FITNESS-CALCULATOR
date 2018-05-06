@@ -11,18 +11,19 @@ package Cadet.Spartan.Warrior.holder;
  */
 public class Cadet {
    private  int pushUps,sitUps,asYear,age,runTime;
-   private  String name;
+   private  String name,school;
    private  double waist,totalScore,pScore,sScore,rScore,wScore,weight,bmi
            ,height;
    private  boolean sex, passOrFail;
    private  String scoreValue;
    //Constructor
-     public Cadet(int pushUps,int sitUps,int asYear,int age,int runTime,
+     public Cadet(int pushUps,int sitUps,int asYear,String school,int age,int runTime,
     String name,double waist,double weight,double bmi, double height,
     boolean sex ){
         this.pushUps = pushUps;
         this.sitUps = sitUps;
         this.asYear = asYear;
+        this.school = school;
         this.age = age;
         this.runTime = runTime;
         this.name = name;
@@ -41,27 +42,54 @@ public class Cadet {
        waistScore(waist,age,sex);
        totalScore();
    }  
-     
+    public int getNumPushUps(){
+        return pushUps;
+    }  
+   
     public String getPushUps() {
         return Integer.toString(pushUps);
     }
 
+    public int getNumSitUps(){
+        return sitUps;
+    }
+    
     public String getSitUps() {
         return Integer.toString(sitUps);
     }
 
+    public int getNumAsYear(){
+        return asYear;
+    }
+    
     public  String getAsYear() {
         return Integer.toString(asYear);
     }
+    
+    public String getSchool(){
+        return school;
+    }
 
+    public int getNumAge(){
+        return age;
+    }
+    
     public  String getAge() {
         return Integer.toString(age);
     }
 
+    public int getNumRunTime(){
+        return runTime;
+    }
+    
     public  String getRunTime() {
         return Integer.toString(runTime);
     }
 
+    public Boolean getBSex(){
+        return sex;
+    }
+    
     public  String getSex() {
         if(sex == true){
             return "Male";
@@ -75,9 +103,18 @@ public class Cadet {
         return name;
     }
 
+    public Double getNumWaist(){
+        return waist;
+    }
+    
     public String getWaist() {
         return Double.toString(waist);
     }
+    
+    public Double getNumBMI(){
+        return bmi;
+    }
+    
     public String getBMI(){
         return Double.toString(bmi);
     }
@@ -836,6 +873,10 @@ public class Cadet {
     public double totalScore(){
         totalScore = pScore+sScore+rScore+wScore;
         return totalScore;
+    }
+    
+    public String totalScoreString(){
+        return Double.toString(totalScore);
     }
     
     public String value(double totalScore){

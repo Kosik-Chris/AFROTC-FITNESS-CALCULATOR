@@ -30,6 +30,17 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.Arrays;
+import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.chart.PieChart;
+import org.apache.poi.xwpf.usermodel.VerticalAlign;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
 
 /**
  *
@@ -43,9 +54,9 @@ public class MainMenu extends Application {
     Stage mainWindow;
     Button btn,addCadetBtn, finishedBtn, getReportsBtn;
     //MenuButton asYearBtn;
-    Label nameLabel, sexLabel, asYearLabel, ageLabel, heightLabel, weightLabel, 
+    Label nameLabel, sexLabel, asYearLabel, schoolLabel, ageLabel, heightLabel, weightLabel, 
             abcircumLabel, pushupsLabel, situpsLabel, runtimeLabel;
-    TextField nameText,sexText, asYearText, ageText, heightText, weightText, abText,
+    TextField nameText,sexText, asYearText, schoolText, ageText, heightText, weightText, abText,
             pushupsText, situpsText, runtimeText;
     Scene mainScene, dataScene,reportScene;
     ArrayList<Cadet> cadets = new ArrayList<Cadet>();
@@ -53,7 +64,7 @@ public class MainMenu extends Application {
     private int pushUps,sitUps,asYear,age,mins,sec,runTime;
     private double waist,weight,height,meters;
     public double bmi = 25;
-    private String name;
+    private String name,school;
     private boolean sex;
     private String[] time;
     @Override
@@ -85,7 +96,7 @@ public class MainMenu extends Application {
         //then it sets the scene again to this scene
         addCadetBtn.setOnAction(e -> {InputAction();
                 System.out.println(name+bmi);
-                c =  new Cadet(pushUps,sitUps,asYear,age,runTime,name,
+                c =  new Cadet(pushUps,sitUps,asYear, school,age,runTime,name,
                         waist,weight,bmi,height,sex);
                 cadets.add(c);
                 mainWindow.setScene(dataScene);
@@ -98,6 +109,7 @@ public class MainMenu extends Application {
         getReportsBtn.setOnAction(e -> {
             try {
                 printCadetList();
+                printStatistics();
             } catch (IOException ex) {
                 Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -148,8 +160,11 @@ public class MainMenu extends Application {
         asYearLabel = new Label("AS Year:");
         asYearLabel.setAccessibleHelp("Select an AS Year from the drop down");
         asYearText = new TextField();
-            
         
+        schoolLabel = new Label("School:");
+        schoolLabel.setAccessibleHelp("Select a supported school");
+        schoolText = new TextField();
+            
         ageLabel = new Label("Age:");
         ageLabel.setAccessibleHelp("Enter users age as a whole Integer");
         ageText = new TextField();
@@ -187,7 +202,7 @@ public class MainMenu extends Application {
         
         dataLayout.getChildren().addAll(nameLabel,nameText,sexLabel,sexText,
                 asYearLabel,
-                asYearText
+                asYearText, schoolLabel,schoolText
                 ,ageLabel,ageText,heightLabel,
                 heightText,weightLabel,weightText,abcircumLabel,abText,
                 pushupsLabel,pushupsText,situpsLabel,situpsText,runtimeLabel,
@@ -210,6 +225,19 @@ public class MainMenu extends Application {
             sex = false;
         }
         asYear = Integer.parseInt(this.asYearText.getText());
+        if(this.schoolText.getText().toUpperCase().charAt(0) == 'W'){
+            school = "WMU";
+        }
+        if(this.schoolText.getText().toUpperCase().charAt(0) == 'M'){
+            school = "MSU";
+        }
+        if(this.schoolText.getText().toUpperCase().charAt(0) == 'C'){
+            school = "CMU";
+        }
+        if(this.schoolText.getText().toUpperCase().charAt(0) == 'L'){
+            school = "LCC";
+        }
+        
         age = Integer.parseInt(this.ageText.getText());
         while(age >39){
            JOptionPane.showMessageDialog(null, "Maxmimum age currently supported"
@@ -232,7 +260,11 @@ public class MainMenu extends Application {
         
     }
     
-    
+    /**
+     * 
+     * @throws IOException
+     * This method creates the CSV file of all collected cadet data
+     */
     public void printCadetList() throws IOException{
         BufferedWriter write;
         File file = new File("Cadet PFA numbers.csv");
@@ -241,28 +273,61 @@ public class MainMenu extends Application {
 	  }
         FileWriter fw = new FileWriter(file);
 	write = new BufferedWriter(fw);
-        write.write("Name,Sex,Age,AS Year,Push ups,"
-                + "Sit ups,RunTime,Waist(inches),BMI,Result\r\n");
+        write.write("Name,Sex,AS Year,School,Age,Push ups,Push ups score,"
+                + "Sit ups,Sit ups score,RunTime, RunTime score,Waist(inches),"
+                + "Waist score,BMI,Total Score, Fitness rating\r\n");
         for(int i = 0; i<cadets.size(); i++) {
             write.write(cadets.get(i).getName()+",");
             write.write(cadets.get(i).getSex()+",");
-            write.write(cadets.get(i).getAge()+",");
             write.write(cadets.get(i).getAsYear()+",");
+            write.write(cadets.get(i).getSchool()+",");
+            write.write(cadets.get(i).getAge()+",");
             write.write(cadets.get(i).getPushUps()+",");
+            write.write(cadets.get(i).pushUpScore(cadets.get(i).getNumPushUps(),
+                    cadets.get(i).getNumAge(),
+                    cadets.get(i).getBSex())+",");
             write.write(cadets.get(i).getSitUps()+",");
+            write.write(cadets.get(i).sitUpScore(cadets.get(i).getNumSitUps(),
+                    cadets.get(i).getNumAge(),
+                    cadets.get(i).getBSex())+",");
             write.write(cadets.get(i).getRunTime()+",");
+            write.write(cadets.get(i).runScore(cadets.get(i).getNumRunTime(),
+                    cadets.get(i).getNumAge(),
+                    cadets.get(i).getBSex())+",");
             write.write(cadets.get(i).getWaist()+",");
+            write.write(cadets.get(i).waistScore(cadets.get(i).getNumWaist(),
+                    cadets.get(i).getNumAge(),
+                    cadets.get(i).getBSex())+",");
             write.write(cadets.get(i).getBMI()+",");
             cadets.get(i).calcScores();
+            write.write(cadets.get(i).totalScoreString()+",");
             write.write(cadets.get(i).value(cadets.get(i).totalScore()));
             write.write("\r\n");
             }
         write.close();
         
     }
-    
-    public void doStatistics(){
+    /**
+     * This method will create the statistics file!
+     * Includes all relevant graphs etc.
+     * @throws java.io.IOException
+     */
+    public void printStatistics() throws IOException{
         Calculation calc = new Calculation(cadets);
+        System.out.printf("%.2f",calc.averageScore());
+        List<String> lines = Arrays.asList("Hello","hi");
+        
+        WordDocGenerator doc = new WordDocGenerator();
+        //Create word document according to lines
+        doc.createWord(lines);
+//        ObservableList<PieChart.Data> failVsNoFail =
+//                FXCollections.observableArrayList(
+//                new PieChart.Data("Pass", calc.getNumPass()),
+//                new PieChart.Data("Fail", calc.countFails()));
+//        final PieChart chart = new PieChart(failVsNoFail);
+//        chart.setTitle("Cadet pass vs. Fail rate");
     }
+    
+
     
 }
