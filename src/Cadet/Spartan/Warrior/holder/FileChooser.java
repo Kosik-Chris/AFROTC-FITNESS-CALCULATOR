@@ -5,6 +5,15 @@
  */
 package Cadet.Spartan.Warrior.holder;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 /**
  *
  * @author Christopher
@@ -28,39 +37,79 @@ public class FileChooser extends javax.swing.JFrame {
     private void initComponents() {
 
         jButton1 = new javax.swing.JButton();
-        jSpinner1 = new javax.swing.JSpinner();
-        jFileChooser1 = new javax.swing.JFileChooser();
-
-        jButton1.setText("jButton1");
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jFileChooser1.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.setText("Import Excel");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jFileChooser1ActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
+
+        jButton2.setText("Import PDF");
+
+        jButton3.setText("Import CSV");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jFileChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 899, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(102, 102, 102)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton3)
+                    .addComponent(jButton2)
+                    .addComponent(jButton1))
+                .addContainerGap(697, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jFileChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(331, Short.MAX_VALUE)
+                .addComponent(jButton3)
+                .addGap(28, 28, 28)
+                .addComponent(jButton2)
+                .addGap(26, 26, 26)
+                .addComponent(jButton1)
+                .addGap(69, 69, 69))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jFileChooser1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFileChooser1ActionPerformed
-        // TODO add your handling code here
-    }//GEN-LAST:event_jFileChooser1ActionPerformed
+    
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        JFileChooser choose = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV Files","csv");
+        choose.setFileFilter(filter);
+        choose.showOpenDialog(null);
+        File f = choose.getSelectedFile();
+        MainMenu main = new MainMenu();
+        try{
+            BufferedReader in = new BufferedReader(new FileReader(f));
+            in.readLine();
+            
+            while(in.ready() == true){
+            String[] data = in.readLine().split(",");
+            main.FileInputAction(data[0],data[1],data[2],
+            data[3],data[4],data[5],data[7],data[9],data[11],
+            data[13],data[14],data[15]);
+            main.newCadet();
+            }       
+            main.printCadetList();
+            main.printStatistics();
+            in.close();
+        }catch(IOException e){
+            
+        }
+        
+        
+        
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -99,7 +148,7 @@ public class FileChooser extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JFileChooser jFileChooser1;
-    private javax.swing.JSpinner jSpinner1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     // End of variables declaration//GEN-END:variables
 }

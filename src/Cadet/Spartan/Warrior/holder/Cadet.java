@@ -99,6 +99,14 @@ public class Cadet {
         }
     }
 
+    public String getHeight(){
+        return Double.toString(height);
+    }
+    
+    public String getWeight(){
+        return Double.toString(weight);
+    }
+    
     public  String getName() {
         return name;
     }

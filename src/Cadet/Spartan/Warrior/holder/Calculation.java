@@ -396,7 +396,4 @@ public class Calculation {
        return averageScore;
    }
    
-   public void createCharts(){
-       
-   }
 }

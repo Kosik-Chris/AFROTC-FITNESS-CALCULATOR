@@ -31,13 +31,16 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 import java.io.File;  
+import java.io.FileNotFoundException;
 
 import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.util.Arrays;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.xwpf.usermodel.VerticalAlign;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
@@ -101,10 +104,7 @@ public class MainMenu extends Application {
         //InputAction call checks all the fields first then creates cadet
         //then it sets the scene again to this scene
         addCadetBtn.setOnAction(e -> {InputAction();
-                System.out.println(name+bmi);
-                c =  new Cadet(pushUps,sitUps,asYear, school,age,runTime,name,
-                        waist,weight,bmi,height,sex);
-                cadets.add(c);
+                newCadet();
                 mainWindow.setScene(dataScene);
                 });
         //finished button does same stuff as cadet and the returns to main menu
@@ -117,6 +117,8 @@ public class MainMenu extends Application {
                 printCadetList();
                 printStatistics();
             } catch (IOException ex) {
+                Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InvalidFormatException ex) {
                 Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
@@ -222,6 +224,57 @@ public class MainMenu extends Application {
         
     }
 
+    public void newCadet(){
+        c =  new Cadet(pushUps,sitUps,asYear, school,age,runTime,name,
+                        waist,weight,bmi,height,sex);
+                cadets.add(c);
+    }
+    
+    public void FileInputAction(String name,String sex,String asYear,
+            String school,String age,String pushUps,
+            String sitUps,String runTime,String waist,
+            String height,String weight,String bmi){
+        try{
+        this.name = name;
+        if(sex.toUpperCase().charAt(0) == 'M'){
+            this.sex = true;
+        }
+        if(sex.toUpperCase().charAt(0) == 'F'){
+            this.sex = false;
+        }
+        this.asYear = Integer.parseInt(asYear);
+        if(school.toUpperCase().charAt(0) == 'W'){
+            this.school = "WMU";
+        }
+        if(school.toUpperCase().charAt(0) == 'M'){
+            this.school = "MSU";
+        }
+        if(school.toUpperCase().charAt(0) == 'C'){
+            this.school = "CMU";
+        }
+        if(school.toUpperCase().charAt(0) == 'L'){
+            this.school = "LCC";
+        }
+        this.age = Integer.parseInt(age);
+        while(this.age >39){
+           JOptionPane.showMessageDialog(null, "Maxmimum age currently supported"
+                   + "is 39 years.");
+           this.age = Integer.parseInt(JOptionPane.showInputDialog(null,
+               "Enter cadet age"));
+       }
+        this.height = Double.parseDouble(height);
+        this.weight = Double.parseDouble(weight);
+        this.bmi = Integer.parseInt(bmi);
+        this.waist = Double.parseDouble(waist);
+        this.pushUps = Integer.parseInt(pushUps);
+        this.sitUps = Integer.parseInt(sitUps);
+        this.runTime = Integer.parseInt(runTime);
+        }catch(NumberFormatException e){
+            JOptionPane.showMessageDialog(null,"ERROR WITH INPUT");
+        }
+        
+    }
+    
     public void InputAction(){
         //TODO work on exceptions and user interface aspects
         try{
@@ -283,7 +336,7 @@ public class MainMenu extends Application {
 	write = new BufferedWriter(fw);
         write.write("Name,Sex,AS Year,School,Age,Push ups,Push ups score,"
                 + "Sit ups,Sit ups score,RunTime, RunTime score,Waist(inches),"
-                + "Waist score,BMI,Total Score, Fitness rating\r\n");
+                + "Waist score,Height,Weight,BMI,Total Score, Fitness rating\r\n");
         for(int i = 0; i<cadets.size(); i++) {
             write.write(cadets.get(i).getName().toUpperCase()+",");
             write.write(cadets.get(i).getSex()+",");
@@ -306,6 +359,8 @@ public class MainMenu extends Application {
             write.write(cadets.get(i).waistScore(cadets.get(i).getNumWaist(),
                     cadets.get(i).getNumAge(),
                     cadets.get(i).getBSex())+",");
+            write.write(cadets.get(i).getHeight()+",");
+            write.write(cadets.get(i).getWeight()+",");
             write.write(cadets.get(i).getBMI()+",");
             cadets.get(i).calcScores();
             write.write(cadets.get(i).totalScoreString()+",");
@@ -320,7 +375,7 @@ public class MainMenu extends Application {
      * Includes all relevant graphs etc.
      * @throws java.io.IOException
      */
-    public void printStatistics() throws IOException{
+    public void printStatistics() throws IOException, InvalidFormatException{
         Calculation calc = new Calculation(cadets);
         System.out.printf("%.2f\n",calc.averageScore());
         System.out.printf("%d", calc.countFails());
@@ -334,12 +389,24 @@ public class MainMenu extends Application {
         );
         //Create word document according to lines
         doc.createWord(lines);
-//        ObservableList<PieChart.Data> failVsNoFail =
-//                FXCollections.observableArrayList(
-//                new PieChart.Data("Pass", calc.getNumPass()),
-//                new PieChart.Data("Fail", calc.countFails()));
-//        final PieChart chart = new PieChart(failVsNoFail);
-//        chart.setTitle("Cadet pass vs. Fail rate");
+    }
+    
+    public void failVsPassChart() throws FileNotFoundException, IOException{
+        Calculation calc = new Calculation(cadets);
+        ObservableList<PieChart.Data> failVsNoFail =
+                FXCollections.observableArrayList(
+                new PieChart.Data("Pass", calc.getNumPass()),
+                new PieChart.Data("Fail", calc.countFails()));
+        final PieChart chart = new PieChart(failVsNoFail);
+        chart.setTitle("Cadet pass vs. Fail rate");
+        FileOutputStream fstream = new FileOutputStream(
+                "\"C:\\Users\\Christopher\\Desktop\\Special Programs"
+                        + "\\AFROTC Fitness Calculator\\src\\resources"
+                        + "\\charts\"");
+        ObjectOutputStream ostream = new ObjectOutputStream(fstream);
+        ostream.writeObject(chart);
+        fstream.close();
+        ostream.close();
     }
     
 

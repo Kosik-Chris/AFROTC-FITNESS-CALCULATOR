@@ -4,15 +4,19 @@
  * and open the template in the editor.
  */
 package Cadet.Spartan.Warrior.holder;
+import java.io.DataInputStream;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.apache.xmlbeans.*;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import static org.apache.poi.sl.draw.binding.STRectAlignment.CTR;
 import org.apache.poi.wp.usermodel.HeaderFooterType;
 import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
@@ -49,11 +53,17 @@ public class WordDocGenerator {
         this.stdDevWScore = stdDevWScore;
     }
 
-    public void createWord(List<String> lines) throws IOException {
+    public void createWord(List<String> lines) throws IOException, InvalidFormatException {
         for (String line : lines) {
             //Blank Document
+            MainMenu main = new MainMenu();
+        File f = new File("\"C:\\Users\\Christopher\\Desktop\\Special Programs"
+                        + "\\AFROTC Fitness Calculator\\src\\resources"
+                        + "\\charts\"");
+        DataInputStream chart1 = new DataInputStream(new FileInputStream(f));
+        main.failVsPassChart();
             XWPFDocument document = new XWPFDocument();
-            
+            document.addPictureData(chart1,document.PICTURE_TYPE_JPEG);
             CTSectPr sectPr = document.getDocument().getBody().addNewSectPr();
             XWPFHeaderFooterPolicy policy = new XWPFHeaderFooterPolicy(document,
                     sectPr);
