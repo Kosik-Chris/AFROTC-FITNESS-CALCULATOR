@@ -30,7 +30,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
-import java.io.File;
+import java.io.File;  
+
 import java.io.FileOutputStream;
 import java.util.Arrays;
 import java.util.List;
@@ -52,7 +53,7 @@ public class MainMenu extends Application {
     HBox btnHolder; 
     //VBox dataLayout;
     Stage mainWindow;
-    Button btn,addCadetBtn, finishedBtn, getReportsBtn;
+    Button newReportBtn,importBtn,addCadetBtn, finishedBtn, getReportsBtn;
     //MenuButton asYearBtn;
     Label nameLabel, sexLabel, asYearLabel, schoolLabel, ageLabel, heightLabel, weightLabel, 
             abcircumLabel, pushupsLabel, situpsLabel, runtimeLabel;
@@ -71,9 +72,12 @@ public class MainMenu extends Application {
     public void start(Stage primaryStage)throws Exception {
         mainWindow = primaryStage;
         primaryStage.setTitle("AFROTC Fitness Calculator v0.1");
-        btn = new Button();
-        btn.setText("New Report");
-        btn.getStyleClass().add("green");
+        newReportBtn = new Button();
+        newReportBtn.setText("New Report");
+        newReportBtn.getStyleClass().add("green");
+        importBtn = new Button();
+        importBtn.setText("Import Report");
+        importBtn.getStyleClass().add("red");
         Label label1 = new Label("The AFROTC Fitness Calculator was created to\n"
                 + " assist in obtaining detachment wide PT statistics.\n This "
                 + "program generates a report for you\n after you have finished"
@@ -89,7 +93,9 @@ public class MainMenu extends Application {
         border.setLeft(dataLayout);
         border.setBottom(btnHolder);
         //*********************END MAIN LAYOUT FOR DATA*********************
-        btn.setOnAction(e -> mainWindow.setScene(dataScene));
+        FileChooser chooseFile = new FileChooser();
+        newReportBtn.setOnAction(e -> mainWindow.setScene(dataScene));
+        importBtn.setOnAction(e ->chooseFile.show());
         //Upon pressing add another cadet it creates cadet with the parameters
         //in the fields (non empty other checks etc. and adds to arraylist
         //InputAction call checks all the fields first then creates cadet
@@ -116,9 +122,11 @@ public class MainMenu extends Application {
         });
         
         Pane mainLayout = new Pane();
-        btn.setLayoutX(320);
-        btn.setLayoutY(450);
-        mainLayout.getChildren().addAll(label1,btn);
+        newReportBtn.setLayoutX(320);
+        newReportBtn.setLayoutY(450);
+        importBtn.setLayoutX(320);
+        importBtn.setLayoutY(330);
+        mainLayout.getChildren().addAll(label1,newReportBtn,importBtn);
         
         Pane reportLayout = new Pane();
         getReportsBtn.setLayoutX(320);
@@ -277,7 +285,7 @@ public class MainMenu extends Application {
                 + "Sit ups,Sit ups score,RunTime, RunTime score,Waist(inches),"
                 + "Waist score,BMI,Total Score, Fitness rating\r\n");
         for(int i = 0; i<cadets.size(); i++) {
-            write.write(cadets.get(i).getName()+",");
+            write.write(cadets.get(i).getName().toUpperCase()+",");
             write.write(cadets.get(i).getSex()+",");
             write.write(cadets.get(i).getAsYear()+",");
             write.write(cadets.get(i).getSchool()+",");
@@ -314,10 +322,16 @@ public class MainMenu extends Application {
      */
     public void printStatistics() throws IOException{
         Calculation calc = new Calculation(cadets);
-        System.out.printf("%.2f",calc.averageScore());
+        System.out.printf("%.2f\n",calc.averageScore());
+        System.out.printf("%d", calc.countFails());
         List<String> lines = Arrays.asList("Hello","hi");
         
-        WordDocGenerator doc = new WordDocGenerator();
+        WordDocGenerator doc = new WordDocGenerator(
+        calc.numFails,calc.getNumPass(),calc.averageScore(),calc.averagePScore(),
+        calc.averageSScore(),calc.averageRScore(),calc.averageWScore(),
+        calc.standardDevTotScore(),calc.standardDevPScore(),calc.standardDevSScore(),
+        calc.standardDevRScore(),calc.standardDevWScore()
+        );
         //Create word document according to lines
         doc.createWord(lines);
 //        ObservableList<PieChart.Data> failVsNoFail =

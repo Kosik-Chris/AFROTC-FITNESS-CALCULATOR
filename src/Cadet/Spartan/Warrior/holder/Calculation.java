@@ -38,7 +38,6 @@ public class Calculation {
    private Boolean Sex;
    public Calculation(ArrayList<Cadet> cadets){
        this.cadetStats = cadets;
-       numFails = 0;
    }
    
    public void main(String[] args) throws IOException{
@@ -56,7 +55,7 @@ public class Calculation {
    }
    
    public int getNumPass(){
-       int numPass = (cadetStats.size()-countFails());
+       int numPass = (cadetStats.size()-numFails);
        return numPass;
    }
    
@@ -144,6 +143,136 @@ public class Calculation {
        }
        averageScore = allScores/(cadetStats.size());
        return averageScore;
+   }
+   
+   public double averagePScore(){
+       double allScores = 0;
+       double averagePScore;
+       for(int i = 0;i < cadetStats.size();i++){
+           allScores += cadetStats.get(i).pushUpScore(cadetStats.get(i).getNumPushUps(),
+                   cadetStats.get(i).getNumAge(),
+                   cadetStats.get(i).getBSex());
+       }
+       averagePScore = allScores/(cadetStats.size());
+       return averagePScore;
+   }
+   
+   public double averageSScore(){
+       double allScores = 0;
+       double averageSScore;
+       for(int i = 0;i < cadetStats.size();i++){
+           allScores += cadetStats.get(i).sitUpScore(cadetStats.get(i).getNumSitUps(),
+                   cadetStats.get(i).getNumAge(),
+                   cadetStats.get(i).getBSex());
+       }
+       averageSScore = allScores/(cadetStats.size());
+       return averageSScore;
+   }
+   
+   public double averageRScore(){
+       double allScores = 0;
+       double averageRScore;
+       for(int i = 0;i < cadetStats.size();i++){
+           allScores += cadetStats.get(i).runScore(cadetStats.get(i).getNumRunTime(),
+                   cadetStats.get(i).getNumAge(),
+                   cadetStats.get(i).getBSex());
+       }
+       averageRScore = allScores/(cadetStats.size());
+       return averageRScore;
+   }
+   
+   public double averageWScore(){
+       double allScores = 0;
+       double averageWScore;
+       for(int i = 0;i < cadetStats.size();i++){
+           allScores += cadetStats.get(i).waistScore(cadetStats.get(i).getNumWaist(),
+                   cadetStats.get(i).getNumAge(),
+                   cadetStats.get(i).getBSex());
+       }
+       averageWScore = allScores/(cadetStats.size());
+       return averageWScore;
+   }
+   
+   public double standardDevPScore(){
+       double avgP = averagePScore();
+       double squareDiff = 0;
+       double answer;
+       for(int i = 0; i< cadetStats.size(); i++){
+           double temp = cadetStats.get(i).pushUpScore(cadetStats.get(i).getNumPushUps()
+                   ,cadetStats.get(i).getNumAge(),
+                   cadetStats.get(i).getBSex());
+           double hold = (temp - avgP);
+           double holdSqr = hold*hold;
+           squareDiff += holdSqr;
+       }
+      answer = (squareDiff/cadetStats.size());
+      return answer;
+   }
+   
+   public double standardDevSScore(){
+       double avgS = averageSScore();
+       double squareDiff = 0;
+       double answer;
+       for(int i = 0; i< cadetStats.size(); i++){
+           double temp = cadetStats.get(i).sitUpScore(cadetStats.get(i).getNumSitUps()
+                   ,cadetStats.get(i).getNumAge(),
+                   cadetStats.get(i).getBSex());
+           double hold = (temp - avgS);
+           double holdSqr = hold*hold;
+           squareDiff += holdSqr;
+       }
+      answer = (squareDiff/cadetStats.size());
+      return answer;
+   }
+   
+   public double standardDevRScore(){
+       double avgR = averageRScore();
+       double squareDiff = 0;
+       double answer;
+       for(int i = 0; i< cadetStats.size(); i++){
+           double temp = cadetStats.get(i).runScore(cadetStats.get(i).getNumRunTime()
+                   ,cadetStats.get(i).getNumAge(),
+                   cadetStats.get(i).getBSex());
+           double hold = (temp - avgR);
+           double holdSqr = hold*hold;
+           squareDiff += holdSqr;
+       }
+      answer = (squareDiff/cadetStats.size());
+      return answer;
+   }
+   
+   public double standardDevWScore(){
+       double avgW = averageWScore();
+       double squareDiff = 0;
+       double answer;
+       for(int i = 0; i< cadetStats.size(); i++){
+           double temp = cadetStats.get(i).waistScore(cadetStats.get(i).getNumWaist()
+                   ,cadetStats.get(i).getNumAge(),
+                   cadetStats.get(i).getBSex());
+           double hold = (temp - avgW);
+           double holdSqr = hold*hold;
+           squareDiff += holdSqr;
+       }
+      answer = (squareDiff/cadetStats.size());
+      return answer;
+   }
+   
+   /**
+    * 
+    * @return standard deviation of all scores 
+    */
+   public double standardDevTotScore(){
+       double avg = averageScore();
+       double squareDiff = 0;
+       double answer;
+       for(int i = 0; i< cadetStats.size(); i++){
+           double temp = cadetStats.get(i).totalScore();
+           double hold = (temp - avg);
+           double holdSqr = hold*hold;
+           squareDiff += holdSqr;
+       }
+      answer = (squareDiff/cadetStats.size());
+      return answer;
    }
    /**
     * 
