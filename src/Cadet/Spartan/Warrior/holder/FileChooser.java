@@ -11,8 +11,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 /**
  *
@@ -104,6 +107,8 @@ public class FileChooser extends javax.swing.JFrame {
             in.close();
         }catch(IOException e){
             
+        } catch (InvalidFormatException ex) {
+            Logger.getLogger(FileChooser.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         
