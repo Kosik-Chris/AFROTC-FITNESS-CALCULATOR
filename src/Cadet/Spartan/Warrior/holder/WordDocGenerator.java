@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package Cadet.Spartan.Warrior.holder;
+import java.awt.Desktop;
 import java.io.DataInputStream;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
@@ -57,13 +58,8 @@ public class WordDocGenerator {
         for (String line : lines) {
             //Blank Document
             MainMenu main = new MainMenu();
-        File f = new File("\"C:\\Users\\Christopher\\Desktop\\Special Programs"
-                        + "\\AFROTC Fitness Calculator\\src\\resources"
-                        + "\\charts\"");
-        DataInputStream chart1 = new DataInputStream(new FileInputStream(f));
-        main.failVsPassChart();
+        //main.failVsPassChart();
             XWPFDocument document = new XWPFDocument();
-            document.addPictureData(chart1,document.PICTURE_TYPE_JPEG);
             CTSectPr sectPr = document.getDocument().getBody().addNewSectPr();
             XWPFHeaderFooterPolicy policy = new XWPFHeaderFooterPolicy(document,
                     sectPr);
@@ -108,6 +104,7 @@ public class WordDocGenerator {
            
             //Close document
             out.close();
+            System.out.println("\nDOCX CREATED");
         }
     }
     
