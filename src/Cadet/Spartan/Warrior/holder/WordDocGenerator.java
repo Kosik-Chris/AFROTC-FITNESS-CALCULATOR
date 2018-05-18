@@ -126,12 +126,21 @@ public class WordDocGenerator {
             XWPFRun run2 = paragraph2.createRun();
             run2.setBold(true);
             run2.setText("hello?");
-            document.write(out);
             XWPFParagraph paragraph3 = document.createParagraph();
             XWPFRun run3 = paragraph3.createRun();
             failVsPassChart();
             avgScoreByYearChart();
             avgScoreBySchoolChart();
+            InputStream pic1 = new FileInputStream("Pass vs. Fail chart.jpeg");
+            InputStream pic2 = new FileInputStream("Average score by AS Year.jpeg");
+            InputStream pic3 = new FileInputStream("Average score by school.jpeg");
+            run3.addPicture(pic1, XWPFDocument.PICTURE_TYPE_JPEG,
+                    "Pass vs. Fail chart.jpeg",300,300);
+            run3.addPicture(pic2,XWPFDocument.PICTURE_TYPE_JPEG,
+                    "Average score by AS Year.jpeg",300,300);
+            run3.addPicture(pic3,XWPFDocument.PICTURE_TYPE_JPEG,
+                    "Average score by school.jpeg",300,300);
+            document.write(out);
             //Add picture that is created and stored from the chart methods
             //run3.addPicture(pictureData, numFails, line, numPass, numPass)
             //Close document
@@ -147,9 +156,10 @@ public class WordDocGenerator {
         JFreeChart chart = ChartFactory.createPieChart("Cadets passing vs. failing",
                 pieDataset, true, true, true);
         PiePlot plot = (PiePlot) chart.getPlot();
+        String home = System.getProperty("user.home");
         try{
            final ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
-           final File chart1 = new File("Pass vs. Fail chart.png");
+           final File chart1 = new File("Pass vs. Fail chart.jpeg");
            ChartUtilities.saveChartAsPNG(chart1, chart, 600, 400, info);
         }
         catch(Exception e){
@@ -173,7 +183,7 @@ public class WordDocGenerator {
          "Average score by AS Year", "AS Year", "Average Score",barData);          
          try{
            final ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
-           final File chart1 = new File("Average score by AS Year.png");
+           final File chart1 = new File("Average score by AS Year.jpeg");
            ChartUtilities.saveChartAsPNG(chart1, barChart, 600, 400, info);
         }
         catch(Exception e){
@@ -193,7 +203,7 @@ public class WordDocGenerator {
          "Average score by School", "School", "Average Score",barData);          
          try{
            final ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
-           final File chart1 = new File("Average score by school.png");
+           final File chart1 = new File("Average score by school.jpeg");
            ChartUtilities.saveChartAsPNG(chart1, barChart, 600, 400, info);
         }
         catch(Exception e){

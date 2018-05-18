@@ -333,35 +333,35 @@ public class Calculation {
        double allScores = 0;
        double avgScore;
        for(int i = 0;i < cadetStats.size();i++){
-           if(asYear == 100){
+           if(asYear == 100 & cadetStats.get(i).getNumAsYear() == 100){
            allScores += cadetStats.get(i).totalScore();
            gmcOne++;
            }
-           if(asYear == 200){
+           if(asYear == 200 & cadetStats.get(i).getNumAsYear() == 200){
                allScores += cadetStats.get(i).totalScore();
            gmcTwo++;
            }
-           if(asYear == 250){
+           if(asYear == 250 & cadetStats.get(i).getNumAsYear() == 250){
                allScores += cadetStats.get(i).totalScore();
            gmcTwoOne++;
            }
-           if(asYear == 300){
+           if(asYear == 300 & cadetStats.get(i).getNumAsYear() == 300){
                allScores += cadetStats.get(i).totalScore();
            pocOne++;
            }
-           if(asYear == 400){
+           if(asYear == 400 & cadetStats.get(i).getNumAsYear() == 400){
                allScores += cadetStats.get(i).totalScore();
            pocTwo++;
            }
-           if(asYear == 450){
+           if(asYear == 450 & cadetStats.get(i).getNumAsYear() == 450){
                allScores += cadetStats.get(i).totalScore();
            pocTwoOne++;
            }
-           if(asYear == 700){
+           if(asYear == 700 & cadetStats.get(i).getNumAsYear() == 700){
                allScores += cadetStats.get(i).totalScore();
            pocThree++;
            }
-           if(asYear == 800){
+           if(asYear == 800 & cadetStats.get(i).getNumAsYear() == 800){
                allScores += cadetStats.get(i).totalScore();
            pocFour++;
            }
@@ -444,19 +444,19 @@ public class Calculation {
        double avgScoret = 0;
        double allScores = 0;
        for(int i = 0; i <cadetStats.size(); i++){
-       if(school == "WMU"){
+       if(school == "WMU" & cadetStats.get(i).getSchool() == "WMU"){
            wmuCnt++;
            allScores += cadetStats.get(i).totalScore();
        }
-       if(school == "MSU"){
+       if(school == "MSU" & cadetStats.get(i).getSchool() == "MSU"){
            msuCnt++;
            allScores += cadetStats.get(i).totalScore();
        }
-       if(school == "CMU"){
+       if(school == "CMU" & cadetStats.get(i).getSchool() == "CMU"){
            cmuCnt++;
            allScores += cadetStats.get(i).totalScore();
        }
-       if(school == "LCC"){
+       if(school == "LCC" & cadetStats.get(i).getSchool() == "LCC"){
            lccCnt++;
            allScores += cadetStats.get(i).totalScore();
        }
