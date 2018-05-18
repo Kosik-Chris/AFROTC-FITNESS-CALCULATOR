@@ -46,6 +46,8 @@ import org.apache.poi.xwpf.usermodel.VerticalAlign;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
+import org.jfree.chart.*;
+import org.jfree.data.general.*;
 
 /**
  *
@@ -396,6 +398,14 @@ public class MainMenu extends Application {
     public void printStatistics() throws IOException, InvalidFormatException{
         Calculation calc = new Calculation(cadets);
         System.out.printf("%.2f\n",calc.averageScore());
+        System.out.println(calc.avg100Score());
+        System.out.println(calc.avg200Score());
+        System.out.println(calc.avg250Score());
+        System.out.println(calc.avg300Score());
+        System.out.println(calc.avg400Score());
+        System.out.println(calc.avg450Score());
+        System.out.println(calc.avg700Score());
+        System.out.println(calc.avg800Score());
         System.out.printf("%d", calc.countFails());
         List<String> lines = Arrays.asList("Hello","hi");
         
@@ -403,14 +413,12 @@ public class MainMenu extends Application {
         calc.numFails,calc.getNumPass(),calc.averageScore(),calc.averagePScore(),
         calc.averageSScore(),calc.averageRScore(),calc.averageWScore(),
         calc.standardDevTotScore(),calc.standardDevPScore(),calc.standardDevSScore(),
-        calc.standardDevRScore(),calc.standardDevWScore()
-        );
+        calc.standardDevRScore(),calc.standardDevWScore(),calc.avg100Score(),
+        calc.avg200Score(),calc.avg250Score(),calc.avg300Score(),calc.avg400Score(
+        ),calc.avg450Score(),calc.avg700Score(),calc.avg800Score(),
+         cadets);
         //Create word document according to lines
         doc.createWord(lines);
-    }
-    
-    public void failVsPassChart() throws FileNotFoundException, IOException{
-
     }
     
 

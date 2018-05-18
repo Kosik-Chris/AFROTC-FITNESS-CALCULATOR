@@ -331,7 +331,7 @@ public class Calculation {
        // AS 800
        int pocFour = 0;
        double allScores = 0;
-       double averageScore;
+       double avgScore;
        for(int i = 0;i < cadetStats.size();i++){
            if(asYear == 100){
            allScores += cadetStats.get(i).totalScore();
@@ -368,7 +368,7 @@ public class Calculation {
        }
        
        //Decide what category to divide by 
-       int divide = 0;
+       double divide = 0;
        if(asYear == 100){
            divide = gmcOne;
        }
@@ -393,8 +393,88 @@ public class Calculation {
        if(asYear == 800){
            divide = pocFour;
        }
-       averageScore = allScores/divide;
-       return averageScore;
+       avgScore = allScores/divide;
+       return avgScore;
    }
    
+   public double avg100Score(){
+       Double avgScore  = avgScoreByYear(100);
+       return avgScore;
+   }
+   
+   public double avg200Score(){
+       Double avgScore = avgScoreByYear(200);
+       return avgScore;
+   }
+   public double avg250Score(){
+       Double avgScore = avgScoreByYear(250);
+       return avgScore;
+   }
+   
+   public double avg300Score(){
+       Double avgScore = avgScoreByYear(300);
+       return avgScore;
+   }
+   
+   public double avg400Score(){
+       Double avgScore = avgScoreByYear(400);
+       return avgScore;
+   }
+   
+   public double avg450Score(){
+       Double avgScore = avgScoreByYear(450);
+       return avgScore;
+   }
+   
+   public double avg700Score(){
+       Double avgScore = avgScoreByYear(700);
+       return avgScore;
+   }
+   
+   public double avg800Score(){
+       Double avgScore = avgScoreByYear(800);
+       return avgScore;
+   }
+   
+   public double avgScoreBySchool(String school){
+       int wmuCnt = 0;
+       int msuCnt = 0;
+       int cmuCnt = 0;
+       int lccCnt = 0;
+       double avgScoret = 0;
+       double allScores = 0;
+       for(int i = 0; i <cadetStats.size(); i++){
+       if(school == "WMU"){
+           wmuCnt++;
+           allScores += cadetStats.get(i).totalScore();
+       }
+       if(school == "MSU"){
+           msuCnt++;
+           allScores += cadetStats.get(i).totalScore();
+       }
+       if(school == "CMU"){
+           cmuCnt++;
+           allScores += cadetStats.get(i).totalScore();
+       }
+       if(school == "LCC"){
+           lccCnt++;
+           allScores += cadetStats.get(i).totalScore();
+       }
+   }
+     double divide = 0;
+     if(school == "WMU"){
+         divide = wmuCnt;
+     }
+     if(school == "MSU"){
+         divide = msuCnt;
+     }
+     if(school == "LCC"){
+         divide = lccCnt;
+     }
+     if(school == "CMU"){
+         divide = cmuCnt;
+     }
+     avgScoret = allScores/divide;
+   return avgScoret;
+}
 }
