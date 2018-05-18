@@ -13,7 +13,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.stage.Stage;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
@@ -22,7 +24,6 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
  * @author Christopher
  */
 public class FileChooser extends javax.swing.JFrame {
-
     /**
      * Creates new form FileChooser
      */
@@ -53,8 +54,18 @@ public class FileChooser extends javax.swing.JFrame {
         });
 
         jButton2.setText("Import PDF");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Import CSV");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -62,21 +73,21 @@ public class FileChooser extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(102, 102, 102)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton3)
-                    .addComponent(jButton2)
-                    .addComponent(jButton1))
-                .addContainerGap(697, Short.MAX_VALUE))
+                .addComponent(jButton1)
+                .addGap(33, 33, 33)
+                .addComponent(jButton2)
+                .addGap(36, 36, 36)
+                .addComponent(jButton3)
+                .addContainerGap(442, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(331, Short.MAX_VALUE)
-                .addComponent(jButton3)
-                .addGap(28, 28, 28)
-                .addComponent(jButton2)
-                .addGap(26, 26, 26)
-                .addComponent(jButton1)
+                .addContainerGap(449, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2)
+                    .addComponent(jButton3))
                 .addGap(69, 69, 69))
         );
 
@@ -85,6 +96,39 @@ public class FileChooser extends javax.swing.JFrame {
 
     
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+////        JFileChooser choose = new JFileChooser();
+////        FileNameExtensionFilter filter = new FileNameExtensionFilter("Excel Files","xlsx");
+////        choose.setFileFilter(filter);
+////        choose.showOpenDialog(null);
+////        File f = choose.getSelectedFile();
+////        MainMenu main = new MainMenu();
+////        try{
+////            BufferedReader in = new BufferedReader(new FileReader(f));
+////            in.readLine();
+////            
+////            while(in.ready() == true){
+////            String[] data = in.readLine().split(",");
+////            main.FileInputAction(data[0],data[1],data[2],
+////            data[3],data[4],data[5],data[7],data[9],data[11],
+////            data[13],data[14],data[15]);
+////            main.newCadet();
+////            }       
+////            main.printCadetList();
+////            main.printStatistics();
+////            in.close();
+////        }catch(IOException e){
+////            
+////        } catch (InvalidFormatException ex) {
+////            Logger.getLogger(FileChooser.class.getName()).log(Level.SEVERE, null, ex);
+////        }
+////        
+////        
+////        
+////
+    JOptionPane.showMessageDialog(null,"Excel not currently supported");
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         JFileChooser choose = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV Files","csv");
         choose.setFileFilter(filter);
@@ -110,11 +154,36 @@ public class FileChooser extends javax.swing.JFrame {
         } catch (InvalidFormatException ex) {
             Logger.getLogger(FileChooser.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
-        
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+//        JFileChooser choose = new JFileChooser();
+//        FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF Files","pdf");
+//        choose.setFileFilter(filter);
+//        choose.showOpenDialog(null);
+//        File f = choose.getSelectedFile();
+//        MainMenu main = new MainMenu();
+//        try{
+//            BufferedReader in = new BufferedReader(new FileReader(f));
+//            in.readLine();
+//            
+//            while(in.ready() == true){
+//            String[] data = in.readLine().split(",");
+//            main.FileInputAction(data[0],data[1],data[2],
+//            data[3],data[4],data[5],data[7],data[9],data[11],
+//            data[13],data[14],data[15]);
+//            main.newCadet();
+//            }       
+//            main.printCadetList();
+//            main.printStatistics();
+//            in.close();
+//        }catch(IOException e){
+//            
+//        } catch (InvalidFormatException ex) {
+//            Logger.getLogger(FileChooser.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+        JOptionPane.showMessageDialog(null,"PDF not Currently supported");
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

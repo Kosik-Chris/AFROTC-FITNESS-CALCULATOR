@@ -10,9 +10,10 @@ and open the template in the editor.
 .root{
     -fx-background-image: url("/resources/images/MainMenuBackground.png")
     -fx-background-repeat stretch;
-    -fx-background-size: 1200 775;
-    -fx-background-position: center center;
-    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0); 
+    -fx-background-size: 100%;
+     position: fixed; 
+/*    -fx-background-position: center center;
+    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0); */
 }
 .green {
     -fx-background-color:
@@ -39,7 +40,7 @@ and open the template in the editor.
     -fx-text-fill: black;
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
 }
-#glass-grey {
+.glass-grey {
     -fx-background-color: 
         #c3c4c4,
         linear-gradient(#d6d6d6 50%, white 100%),
@@ -63,7 +64,7 @@ and open the template in the editor.
     -fx-font-size: 14px;
     -fx-padding: 10 20 10 20;
 }
-#dark-blue {
+.dark-blue {
     -fx-background-color: 
         #090a0c,
         linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),
@@ -75,11 +76,22 @@ and open the template in the editor.
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
     -fx-font-family: "Arial";
     -fx-text-fill: linear-gradient(white, #d0d0d0);
-    -fx-font-size: 12px;
+    -fx-font-size: 14px;
     -fx-padding: 10 20 10 20;
 }
 .dark-blue Text {
     -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.9) , 1, 0.0 , 0 , 1 );
+}
+.dark-blue:hover {
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
+        #9d4024,
+        #d86e3a,
+        radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+}
+.dark-blue:pressed {
+    -fx-padding: 10 15 13 15;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
 }
 .record-sales {
     -fx-padding: 8 15 15 15;
@@ -101,7 +113,7 @@ and open the template in the editor.
         #d86e3a,
         radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
 }
-#record-sales:pressed {
+.record-sales:pressed {
     -fx-padding: 10 15 13 15;
     -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
 }
@@ -119,10 +131,21 @@ and open the template in the editor.
     -fx-background-radius: 3,2,2,2;
     -fx-padding: 12 30 12 30;
     -fx-text-fill: white;
-    -fx-font-size: 12px;
+    -fx-font-size: 14px;
 }
 .rich-blue Text {
     -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.8) , 0, 0.0 , 0 , 1);
+}
+.rich-blue:hover {
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
+        #9d4024,
+        #d86e3a,
+        radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+}
+.rich-blue:pressed {
+    -fx-padding: 10 15 13 15;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
 }
 .big-yellow {
     -fx-background-color: 

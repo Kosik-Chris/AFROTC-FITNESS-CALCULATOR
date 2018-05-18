@@ -5,6 +5,7 @@
  */
 package Cadet.Spartan.Warrior.holder;
 
+import java.awt.Desktop;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -56,13 +57,14 @@ public class MainMenu extends Application {
     HBox btnHolder; 
     //VBox dataLayout;
     Stage mainWindow;
-    Button newReportBtn,importBtn,addCadetBtn, finishedBtn, getReportsBtn;
+    Button newReportBtn,importBtn,addCadetBtn, finishedBtn, getReportsBtn
+            ,backBtn;
     //MenuButton asYearBtn;
     Label nameLabel, sexLabel, asYearLabel, schoolLabel, ageLabel, heightLabel, weightLabel, 
             abcircumLabel, pushupsLabel, situpsLabel, runtimeLabel;
     TextField nameText,sexText, asYearText, schoolText, ageText, heightText, weightText, abText,
             pushupsText, situpsText, runtimeText;
-    Scene mainScene, dataScene,reportScene;
+    public Scene mainScene, dataScene,reportScene;
     ArrayList<Cadet> cadets = new ArrayList<Cadet>();
     Cadet c;
     private int pushUps,sitUps,asYear,age,mins,sec,runTime;
@@ -77,10 +79,10 @@ public class MainMenu extends Application {
         primaryStage.setTitle("AFROTC Fitness Calculator v0.1");
         newReportBtn = new Button();
         newReportBtn.setText("New Report");
-        newReportBtn.getStyleClass().add("green");
+        newReportBtn.getStyleClass().add("dark-blue");
         importBtn = new Button();
         importBtn.setText("Import Report");
-        importBtn.getStyleClass().add("red");
+        importBtn.getStyleClass().add("rich-blue");
         Label label1 = new Label("The AFROTC Fitness Calculator was created to\n"
                 + " assist in obtaining detachment wide PT statistics.\n This "
                 + "program generates a report for you\n after you have finished"
@@ -109,9 +111,9 @@ public class MainMenu extends Application {
                 });
         //finished button does same stuff as cadet and the returns to main menu
         finishedBtn.setOnAction(e -> mainWindow.setScene(reportScene));
-        
+        backBtn.setOnAction(e -> mainWindow.setScene(mainScene));
         getReportsBtn = new Button("Get Reports!");
-        getReportsBtn.getStyleClass().add("green");
+        getReportsBtn.getStyleClass().add("dark-blue");
         getReportsBtn.setOnAction(e -> {
             try {
                 printCadetList();
@@ -124,10 +126,10 @@ public class MainMenu extends Application {
         });
         
         Pane mainLayout = new Pane();
-        newReportBtn.setLayoutX(320);
-        newReportBtn.setLayoutY(450);
-        importBtn.setLayoutX(320);
-        importBtn.setLayoutY(330);
+        newReportBtn.setLayoutX(150);
+        newReportBtn.setLayoutY(670);
+        importBtn.setLayoutX(330);
+        importBtn.setLayoutY(670);
         mainLayout.getChildren().addAll(label1,newReportBtn,importBtn);
         
         Pane reportLayout = new Pane();
@@ -136,9 +138,11 @@ public class MainMenu extends Application {
         reportLayout.getChildren().add(getReportsBtn);
         
         mainScene = new Scene(mainLayout, 1200, 775);
-        mainScene.getStylesheets().add("Styles.css");
+        mainScene.getStylesheets().add("mainStyleSheet.css");
         dataScene = new Scene(border,1200,775);
+        dataScene.getStylesheets().add("dataStyleSheet.css");
         reportScene = new Scene(reportLayout,1200,775);
+        reportScene.getStylesheets().add("reportStyleSheet.css");
         
         //dataScene.getStylesheets().add("Styles.css");
         //Below code is a lambda expression! super nice! Basically it gets 
@@ -154,10 +158,14 @@ public class MainMenu extends Application {
     }
     
     public void DataInput(){
-        
+        backBtn = new Button();
+        backBtn.setText("Main Menu");
+        backBtn.getStyleClass().add("dark-blue");
         
         addCadetBtn = new Button("Add another cadet");
+        addCadetBtn.getStyleClass().add("dark-blue");
         finishedBtn = new Button("Finished entering cadets");
+        finishedBtn.getStyleClass().add("dark-blue");
         
         nameLabel = new Label("Name:");
         nameLabel.setAccessibleHelp("Enter as: Last Name, First Name");
@@ -220,7 +228,7 @@ public class MainMenu extends Application {
         btnHolder = new HBox();
         btnHolder.setPadding(new Insets(15, 12, 15, 12));
         btnHolder.setSpacing(10);
-        btnHolder.getChildren().addAll(addCadetBtn,finishedBtn);
+        btnHolder.getChildren().addAll(addCadetBtn,finishedBtn,backBtn);
         
     }
 
@@ -327,11 +335,13 @@ public class MainMenu extends Application {
      * This method creates the CSV file of all collected cadet data
      */
     public void printCadetList() throws IOException{
+        String userHomeFolder = System.getProperty("user.home");
         BufferedWriter write;
-        File file = new File("Cadet PFA numbers.csv");
+        File file = new File(userHomeFolder,"Cadet PFA numbers.csv");
         if (!file.exists()) {
 	     file.createNewFile();
 	  }
+        
         FileWriter fw = new FileWriter(file);
 	write = new BufferedWriter(fw);
         write.write("Name,Sex,AS Year,School,Age,Push ups,Push ups score,"
@@ -368,7 +378,15 @@ public class MainMenu extends Application {
             write.write("\r\n");
             }
         write.close();
-        
+        //Outputs pdf of file to documents
+        if(Desktop.isDesktopSupported() == true){
+        Desktop.getDesktop().print(file);
+        }
+        else{
+            JOptionPane.showMessageDialog(null,"Output not supported by your"
+                    + " Desktop.\n"
+                    + "Check security settings.");
+        }
     }
     /**
      * This method will create the statistics file!
@@ -392,21 +410,7 @@ public class MainMenu extends Application {
     }
     
     public void failVsPassChart() throws FileNotFoundException, IOException{
-        Calculation calc = new Calculation(cadets);
-        ObservableList<PieChart.Data> failVsNoFail =
-                FXCollections.observableArrayList(
-                new PieChart.Data("Pass", calc.getNumPass()),
-                new PieChart.Data("Fail", calc.countFails()));
-        final PieChart chart = new PieChart(failVsNoFail);
-        chart.setTitle("Cadet pass vs. Fail rate");
-        FileOutputStream fstream = new FileOutputStream(
-                "\"C:\\Users\\Christopher\\Desktop\\Special Programs"
-                        + "\\AFROTC Fitness Calculator\\src\\resources"
-                        + "\\charts\"");
-        ObjectOutputStream ostream = new ObjectOutputStream(fstream);
-        ostream.writeObject(chart);
-        fstream.close();
-        ostream.close();
+
     }
     
 
