@@ -337,9 +337,9 @@ public class MainMenu extends Application {
      * This method creates the CSV file of all collected cadet data
      */
     public void printCadetList() throws IOException{
-        String userHomeFolder = System.getProperty("user.home");
+//        String userHomeFolder = System.getProperty("user.home");
         BufferedWriter write;
-        File file = new File(userHomeFolder,"Cadet PFA numbers.csv");
+        File file = new File("Cadet PFA numbers.csv");
         if (!file.exists()) {
 	     file.createNewFile();
 	  }
@@ -382,7 +382,7 @@ public class MainMenu extends Application {
         write.close();
         //Outputs pdf of file to documents
         if(Desktop.isDesktopSupported() == true){
-        Desktop.getDesktop().print(file);
+//        Desktop.getDesktop().print(file);
         }
         else{
             JOptionPane.showMessageDialog(null,"Output not supported by your"
@@ -397,26 +397,16 @@ public class MainMenu extends Application {
      */
     public void printStatistics() throws IOException, InvalidFormatException{
         Calculation calc = new Calculation(cadets);
-        System.out.printf("%.2f\n",calc.averageScore());
-        System.out.println(calc.avg100Score());
-        System.out.println(calc.avg200Score());
-        System.out.println(calc.avg250Score());
-        System.out.println(calc.avg300Score());
-        System.out.println(calc.avg400Score());
-        System.out.println(calc.avg450Score());
-        System.out.println(calc.avg700Score());
-        System.out.println(calc.avg800Score());
-        System.out.printf("%d", calc.countFails());
         List<String> lines = Arrays.asList("Hello","hi");
         
         WordDocGenerator doc = new WordDocGenerator(
-        calc.numFails,calc.getNumPass(),calc.averageScore(),calc.averagePScore(),
+        calc.countFails(),calc.getNumPass(),calc.averageScore(),calc.averagePScore(),
         calc.averageSScore(),calc.averageRScore(),calc.averageWScore(),
         calc.standardDevTotScore(),calc.standardDevPScore(),calc.standardDevSScore(),
         calc.standardDevRScore(),calc.standardDevWScore(),calc.avg100Score(),
         calc.avg200Score(),calc.avg250Score(),calc.avg300Score(),calc.avg400Score(
         ),calc.avg450Score(),calc.avg700Score(),calc.avg800Score(),
-         cadets);
+         cadets,calc.topFailedExercise());
         //Create word document according to lines
         doc.createWord(lines);
     }

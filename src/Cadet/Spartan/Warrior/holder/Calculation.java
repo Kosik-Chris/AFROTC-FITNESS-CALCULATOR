@@ -34,8 +34,8 @@ import org.jfree.chart.*;
  */
 public class Calculation {
    ArrayList<Cadet> cadetStats;
-   List<Integer> duplicateFind;
-   int numFails,numZeroP,numZeroS,numZeroR,numZeroW,asYear;
+   ArrayList<Integer> duplicateFind = new ArrayList<Integer>();
+   private int numFails,numZeroP,numZeroS,numZeroR,numZeroW,asYear;
    private Boolean Sex;
    public Calculation(ArrayList<Cadet> cadets){
        this.cadetStats = cadets;
@@ -84,14 +84,22 @@ public class Calculation {
                 numZeroW++;
             }
         }
-        
-        //compare #zero score values to find top failed
-        //check to see if any are identical
-        //add to list and call method for functionality
+        System.out.println(numZeroP);
+        System.out.println(numZeroS);
+        System.out.println(numZeroR);
+        System.out.println(numZeroW);
+
         duplicateFind.add(numZeroP);
         duplicateFind.add(numZeroS);
         duplicateFind.add(numZeroR);
         duplicateFind.add(numZeroW);
+        
+        
+
+        
+        //compare #zero score values to find top failed
+        //check to see if any are identical
+        //add to list and call method for functionality
         findDuplicates(duplicateFind);
 //        int result = NumberUtils.max(zeroFind);
         if(findDuplicates(duplicateFind) == null){
