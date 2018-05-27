@@ -9,11 +9,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.stage.Stage;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -153,6 +150,19 @@ public class FileChooser extends javax.swing.JFrame {
             
         } catch (InvalidFormatException ex) {
             Logger.getLogger(FileChooser.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch(ArrayIndexOutOfBoundsException e){
+            JOptionPane.showMessageDialog(null, "Please check to ensure you have"
+                    + " selected the proper CSV file.\n"
+                    + "The system is registering an error with your file.");
+        }
+        catch(NullPointerException e){
+            JOptionPane.showMessageDialog(null, "Please check to ensure you have"
+                    + " selected the proper CSV file.\n"
+                    + "The system is registering an error with your file.");
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Error with your file.");
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 

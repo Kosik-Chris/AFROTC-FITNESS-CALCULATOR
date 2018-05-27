@@ -5,37 +5,20 @@
  */
 package Cadet.Spartan.Warrior.holder;
 
-import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import javafx.scene.chart.*;
-import javafx.scene.Group;
-import java.io.File;
-import java.io.FileOutputStream;
-import org.apache.poi.xwpf.usermodel.VerticalAlign;
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
-import org.apache.poi.xwpf.usermodel.XWPFParagraph;
-import org.apache.poi.xwpf.usermodel.XWPFRun;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
 import org.apache.commons.lang3.math.NumberUtils;
-import java.lang.Integer;
-import org.jfree.chart.*;
 /**
  *
  * @author Christopher
  */
 public class Calculation {
    ArrayList<Cadet> cadetStats;
-   ArrayList<Integer> duplicateFind = new ArrayList<Integer>();
+//   ArrayList<Integer> duplicateFind = new ArrayList<Integer>();
    private int numFails,numZeroP,numZeroS,numZeroR,numZeroW,asYear;
+   private int numMales,numFemales,numGmcMales,numGmcFemales,numPocMales,
+           numPocFemales,numHostMales,numHostFemales,numCrosstownMales,
+           numCrosstownFemales;
    private Boolean Sex;
    public Calculation(ArrayList<Cadet> cadets){
        this.cadetStats = cadets;
@@ -43,9 +26,129 @@ public class Calculation {
    
    public void main(String[] args) throws IOException{
        //TODO make cool stuff
-        
     }
    
+   public int numMales(){
+       for(int i = 0; i <cadetStats.size();i++){
+           if(cadetStats.get(i).getBSex() == true){
+               numMales++;
+           }
+       }
+       return numMales;
+   }
+   
+   public int numFemales(){
+       for(int i = 0; i <cadetStats.size();i++){
+           if(cadetStats.get(i).getBSex() == false){
+               numFemales++;
+           }
+       }
+       return numFemales;
+   }
+   
+   public int numGmcMales(){
+       for(int i = 0; i <cadetStats.size();i++){
+           if(cadetStats.get(i).getBSex() == true){ 
+              if(cadetStats.get(i).getNumAsYear() == 100||
+                   cadetStats.get(i).getNumAsYear() == 200||
+                   cadetStats.get(i).getNumAsYear() == 250){
+               numGmcMales++;
+           }
+       }
+       }
+       return numGmcMales;
+   }
+   
+   public int numGmcFemales(){
+       for(int i = 0; i <cadetStats.size();i++){
+           if(cadetStats.get(i).getBSex() == false){
+               if(cadetStats.get(i).getNumAsYear() == 100||
+                   cadetStats.get(i).getNumAsYear() == 200||
+                   cadetStats.get(i).getNumAsYear() == 250){
+                    numGmcFemales++;
+               }
+           }
+       }
+       return numGmcFemales;
+   }
+   
+   public int numGmc(){
+       return numGmcMales+numGmcFemales;
+   }
+   
+   public int numPoc(){
+       return numPocMales+numPocFemales;
+   }
+   
+   public int numPocMales(){
+       for(int i = 0; i <cadetStats.size();i++){
+           if(cadetStats.get(i).getBSex() == true){
+               if(cadetStats.get(i).getNumAsYear() == 300||
+                   cadetStats.get(i).getNumAsYear() == 400||
+                   cadetStats.get(i).getNumAsYear() == 450||
+                   cadetStats.get(i).getNumAsYear() == 700||
+                   cadetStats.get(i).getNumAsYear() == 800){
+               numPocMales++;
+           }
+           }
+       }
+       return numPocMales;
+   }
+   
+   public int numPocFemales(){
+       for(int i = 0; i <cadetStats.size();i++){
+           if(cadetStats.get(i).getBSex() == false){              
+                 if(cadetStats.get(i).getNumAsYear() == 300||
+                   cadetStats.get(i).getNumAsYear() == 400||
+                   cadetStats.get(i).getNumAsYear() == 450||
+                   cadetStats.get(i).getNumAsYear() == 700||
+                   cadetStats.get(i).getNumAsYear() == 800){
+               numPocFemales++;
+           }
+           }
+       }
+       return numPocFemales;
+   }
+   
+   public int numHostMales(){
+       for(int i = 0; i <cadetStats.size();i++){
+           if(cadetStats.get(i).getSchool() == "MSU"&
+                   cadetStats.get(i).getBSex() == true){
+               numHostMales++;
+           }
+       }
+       return numHostMales;
+   }
+   
+   public int numHostFemales(){
+       for(int i = 0; i <cadetStats.size();i++){
+           if(cadetStats.get(i).getSchool() == "MSU"&
+                   cadetStats.get(i).getBSex() == false){
+               numHostFemales++;
+           }
+       }
+       return numHostFemales;
+   }
+   
+   public int numCrosstownMales(){
+       for(int i = 0; i <cadetStats.size();i++){
+           if(cadetStats.get(i).getSchool() != "MSU"&
+                   cadetStats.get(i).getBSex() == true){
+               numCrosstownMales++;
+           }
+       }
+       return numCrosstownMales;
+   }
+   
+   public int numCrosstownFemales(){
+       for(int i = 0; i <cadetStats.size();i++){
+           if(cadetStats.get(i).getSchool() != "MSU"&
+                   cadetStats.get(i).getBSex() == false){
+               numCrosstownFemales++;
+           }
+       }
+       return numCrosstownFemales;
+   }
    public int countFails(){
        for(int i = 0;i < cadetStats.size();i++){
            if(cadetStats.get(i).value(cadetStats.get(i).totalScore()).equals("UNSAT")){
@@ -61,7 +164,7 @@ public class Calculation {
    }
    
    public String topFailedExercise(){
-       String message = "";
+       String message = "hello";
         for(int i = 0;i < cadetStats.size();i++){
             if(cadetStats.get(i).pushUpScore(cadetStats.get(i).getNumPushUps(),
                     cadetStats.get(i).getNumAge(),
@@ -84,15 +187,13 @@ public class Calculation {
                 numZeroW++;
             }
         }
-        System.out.println(numZeroP);
-        System.out.println(numZeroS);
-        System.out.println(numZeroR);
-        System.out.println(numZeroW);
 
-        duplicateFind.add(numZeroP);
-        duplicateFind.add(numZeroS);
-        duplicateFind.add(numZeroR);
-        duplicateFind.add(numZeroW);
+
+//        duplicateFind.add(numZeroP);
+//        duplicateFind.add(numZeroS);
+//        duplicateFind.add(numZeroR);
+//        duplicateFind.add(numZeroW);
+//        System.out.println(duplicateFind.get(0));
         
         
 
@@ -100,49 +201,49 @@ public class Calculation {
         //compare #zero score values to find top failed
         //check to see if any are identical
         //add to list and call method for functionality
-        findDuplicates(duplicateFind);
+//        findDuplicates(duplicateFind);
 //        int result = NumberUtils.max(zeroFind);
-        if(findDuplicates(duplicateFind) == null){
+//        if(findDuplicates(duplicateFind) == null){
             int [] maxFailed = new int[]{numZeroP,numZeroS,numZeroR,numZeroW};
             int result = NumberUtils.max(maxFailed);
             if(result == numZeroP){
                 message = "Top Failed Exercise was Push ups: "
-                        +result+" number of fails.";
+                        +result+" fails.";
             }
             if(result == numZeroS){
                 message = "Top Failed Exercise was Situps: "+result+
-                        " number of fails.";
+                        " fails.";
             }
             if(result == numZeroR){
                 message = "Top Failed Exercise was 1.5 mile run: "+result+" "
-                        + "number of fails.";
+                        + "fails.";
             }
             if(result == numZeroW){
                 message = "Top Failed Exercise was waist measurement: "+result+" "
-                        + "number of fails.";
+                        + "fails.";
             }
-        }
-        if(findDuplicates(duplicateFind) != null){
-            message = findDuplicates(duplicateFind).toString();
-        }
+//        }
+//        if(findDuplicates(duplicateFind) != null){
+//            message = "Duplicates Found";
+//        }
             
         return message;
    }
    
-   public Set<Integer> findDuplicates(List<Integer> listContainingDuplicates)
-{ 
-    final Set<Integer> duplicates = new HashSet(); 
-    final Set<Integer> uniques = new HashSet();
-
-        for (Integer myInt : listContainingDuplicates)
-    { 
-        if (!uniques.add(myInt))
-        {
-        duplicates.add(myInt);
-        }
-    }
-        return duplicates;
-}
+//   public Set<Integer> findDuplicates(<List>listContainingDuplicates)
+//{ 
+//    final Set<Integer> duplicates = new HashSet(); 
+//    final Set<Integer> uniques = new HashSet();
+//
+//        for (Integer myInt : listContainingDuplicates)
+//    { 
+//        if (!uniques.add(myInt))
+//        {
+//        duplicates.add(myInt);
+//        }
+//    }
+//        return duplicates;
+//}
  
    public double averageScore(){
        double allScores = 0;
@@ -292,8 +393,7 @@ public class Calculation {
        double allScores = 0;
        double averageScore;
        for(int i = 0;i < cadetStats.size();i++){
-           Sex = cadetStats.get(i).getBSex();
-           if(Sex = true){
+           if(cadetStats.get(i).getBSex() == true){
                allScores += cadetStats.get(i).totalScore();
                maleCnt++;
            }
@@ -311,8 +411,7 @@ public class Calculation {
        double allScores = 0;
        double averageScore;
        for(int i = 0;i < cadetStats.size();i++){
-           Sex = cadetStats.get(i).getBSex();
-           if(Sex = false){
+           if(cadetStats.get(i).getBSex() == false){
                allScores += cadetStats.get(i).totalScore();
                femaleCnt++;
            }
@@ -485,4 +584,418 @@ public class Calculation {
      avgScoret = allScores/divide;
    return avgScoret;
 }
+   /**
+    * This method calculates the average based off component string
+    * sent. Calls other methods
+    * @param component
+    * @return average based off component 
+    */
+   public double gmcScoreStats(String component){
+       //Average total score, push up score, sit up score, run score
+       //and ab score
+       //Declare new variables to hold avg score per category
+       double answer = 0;
+       if(component == "total"){
+          answer = gmcTotAverageScore();
+       }
+       if(component == "pushups"){
+           answer = gmcPushupAverageScore();
+       }
+       if(component == "situps"){
+           answer = gmcSitupAverageScore();
+       }
+       if(component == "run"){
+           answer = gmcRunAverageScore();
+       }
+       if(component == "ab"){
+           answer = gmcAbAverageScore();
+       }
+       return answer;
+   }
+   
+   public double gmcTotAverageScore(){
+       int numGmc = 0;
+       double gmcTotScore = 0;
+       double gmcAvgScore = 0;
+       for(int i = 0; i <cadetStats.size(); i++){
+           if(cadetStats.get(i).getNumAsYear() == 100 ||
+                   cadetStats.get(i).getNumAsYear() == 200 ||
+                   cadetStats.get(i).getNumAsYear() == 250){
+               gmcTotScore += cadetStats.get(i).totalScore();
+               numGmc++;
+           }
+       }
+       gmcAvgScore = gmcTotScore/numGmc;
+       return gmcAvgScore;
+   }
+   
+   public double gmcSitupAverageScore(){
+       double allGmcSScores = 0;
+       double averageGmcSScore;
+       int numGmc = 0;
+       for(int i = 0;i < cadetStats.size();i++){
+           if(cadetStats.get(i).getNumAsYear() == 100 ||
+                   cadetStats.get(i).getNumAsYear() == 200 ||
+                   cadetStats.get(i).getNumAsYear() == 250){
+               allGmcSScores += cadetStats.get(i).sitUpScore(
+                       cadetStats.get(i).getNumSitUps(),
+                       cadetStats.get(i).getNumAge(),
+                       cadetStats.get(i).getBSex());
+               numGmc++;
+           }
+       }
+       averageGmcSScore = allGmcSScores/numGmc;
+       return averageGmcSScore;
+   }
+   
+   public double gmcPushupAverageScore(){
+       double allGmcPScores = 0;
+       double averageGmcPScore;
+       int numGmc = 0;
+       for(int i = 0;i < cadetStats.size();i++){
+           if(cadetStats.get(i).getNumAsYear() == 100 ||
+                   cadetStats.get(i).getNumAsYear() == 200 ||
+                   cadetStats.get(i).getNumAsYear() == 250){
+               allGmcPScores += cadetStats.get(i).pushUpScore(
+                       cadetStats.get(i).getNumPushUps(),
+                       cadetStats.get(i).getNumAge(),
+                       cadetStats.get(i).getBSex());
+               numGmc++;
+           }
+       }
+       averageGmcPScore = allGmcPScores/numGmc;
+       return averageGmcPScore;
+   }
+   
+   public double gmcRunAverageScore(){
+       double allGmcRScores = 0;
+       double averageGmcRScore;
+       int numGmc = 0;
+       for(int i = 0;i < cadetStats.size();i++){
+           if(cadetStats.get(i).getNumAsYear() == 100 ||
+                   cadetStats.get(i).getNumAsYear() == 200 ||
+                   cadetStats.get(i).getNumAsYear() == 250){
+               allGmcRScores += cadetStats.get(i).runScore(
+                       cadetStats.get(i).getNumRunTime(),
+                       cadetStats.get(i).getNumAge(),
+                       cadetStats.get(i).getBSex());
+               numGmc++;
+           }
+       }
+       averageGmcRScore = allGmcRScores/numGmc;
+       return averageGmcRScore;
+   }
+   
+   public double gmcAbAverageScore(){
+       double allGmcAScores = 0;
+       double averageGmcAScore;
+       int numGmc = 0;
+       for(int i = 0;i < cadetStats.size();i++){
+           if(cadetStats.get(i).getNumAsYear() == 100 ||
+                   cadetStats.get(i).getNumAsYear() == 200 ||
+                   cadetStats.get(i).getNumAsYear() == 250){
+               allGmcAScores += cadetStats.get(i).waistScore(
+                       cadetStats.get(i).getNumWaist(),
+                       cadetStats.get(i).getNumAge(),
+                       cadetStats.get(i).getBSex());
+               numGmc++;
+           }
+       }
+       averageGmcAScore = allGmcAScores/numGmc;
+       return averageGmcAScore;
+   }
+   
+   public double gmcRepStats(String component){
+       double answer = 0;
+           if(component == "pushups"){
+               answer = gmcPushupAverageRep();
+           }
+           if(component == "situps"){
+               answer = gmcSitupAverageRep();
+           }
+           if(component == "run"){
+               answer = gmcRunAverageTime();
+           }
+           if(component == "ab"){
+               answer = gmcAbAverageSize();
+           }
+           
+       return answer;
+   }
+   
+    public double gmcPushupAverageRep(){
+       double allGmcPReps = 0;
+       double averageGmcPReps;
+       int numGmc = 0;
+       for(int i = 0;i < cadetStats.size();i++){
+           if(cadetStats.get(i).getNumAsYear() == 100 ||
+                   cadetStats.get(i).getNumAsYear() == 200 ||
+                   cadetStats.get(i).getNumAsYear() == 250){
+               allGmcPReps += cadetStats.get(i).getNumPushUps();
+               numGmc++;
+           }
+       }
+       averageGmcPReps = allGmcPReps/numGmc;
+       return averageGmcPReps;
+    }
+    
+    public double gmcSitupAverageRep(){
+       double allGmcSReps = 0;
+       double averageGmcSReps;
+       int numGmc = 0;
+       for(int i = 0;i < cadetStats.size();i++){
+           if(cadetStats.get(i).getNumAsYear() == 100 ||
+                   cadetStats.get(i).getNumAsYear() == 200 ||
+                   cadetStats.get(i).getNumAsYear() == 250){
+               allGmcSReps += cadetStats.get(i).getNumSitUps();
+               numGmc++;
+           }
+       }
+       averageGmcSReps = allGmcSReps/numGmc;
+       return averageGmcSReps;
+    }
+    
+    public double gmcRunAverageTime(){
+       int numGmc = 0;
+       double allGmcRTime = 0;
+       double averageGmcRTime;
+       for(int i = 0;i < cadetStats.size();i++){
+           if(cadetStats.get(i).getNumAsYear() == 100 ||
+                   cadetStats.get(i).getNumAsYear() == 200 ||
+                   cadetStats.get(i).getNumAsYear() == 250){
+               allGmcRTime += cadetStats.get(i).getNumRunTime();
+               numGmc++;
+           }
+       }
+       averageGmcRTime = allGmcRTime/numGmc;
+       return averageGmcRTime;
+    }
+    
+    public double gmcAbAverageSize(){
+       int numGmc = 0;
+       double allGmcASize = 0;
+       double averageGmcASize;
+       for(int i = 0;i < cadetStats.size();i++){
+           if(cadetStats.get(i).getNumAsYear() == 100 ||
+                   cadetStats.get(i).getNumAsYear() == 200 ||
+                   cadetStats.get(i).getNumAsYear() == 250){
+               allGmcASize += cadetStats.get(i).getNumWaist();
+               numGmc++;
+           }
+       }
+       averageGmcASize = allGmcASize/numGmc;
+       return averageGmcASize;
+    }
+   
+   public double pocScoreStats(String component){
+       double answer = 0;
+       if(component == "total"){
+          answer = pocTotAverageScore();
+       }
+       if(component == "pushups"){
+           answer = pocPushupAverageScore();
+       }
+       if(component == "situps"){
+           answer = pocSitupAverageScore();
+       }
+       if(component == "run"){
+           answer = pocRunAverageScore();
+       }
+       if(component == "ab"){
+           answer = pocAbAverageScore();
+       }
+       return answer;
+   }
+   
+   public double pocTotAverageScore(){
+       double pocTotScore = 0;
+       double pocAvgScore = 0;
+       int numPoc = 0;
+       for(int i = 0; i <cadetStats.size(); i++){
+           if(cadetStats.get(i).getNumAsYear() == 300 ||
+                   cadetStats.get(i).getNumAsYear() == 400 ||
+                   cadetStats.get(i).getNumAsYear() == 450 ||
+                   cadetStats.get(i).getNumAsYear() == 700 ||
+                   cadetStats.get(i).getNumAsYear() == 800){
+               pocTotScore += cadetStats.get(i).totalScore();
+               numPoc++;
+           }
+       }
+       pocAvgScore = pocTotScore/numPoc;
+       return pocAvgScore;
+   }
+   
+   public double pocSitupAverageScore(){
+       int numPoc = 0;
+       double allPocSScores = 0;
+       double averagePocSScore;
+       for(int i = 0;i < cadetStats.size();i++){
+           if(cadetStats.get(i).getNumAsYear() == 300 ||
+                   cadetStats.get(i).getNumAsYear() == 400 ||
+                   cadetStats.get(i).getNumAsYear() == 450 ||
+                   cadetStats.get(i).getNumAsYear() == 700 ||
+                   cadetStats.get(i).getNumAsYear() == 800){
+               allPocSScores += cadetStats.get(i).sitUpScore(
+                       cadetStats.get(i).getNumSitUps(),
+                       cadetStats.get(i).getNumAge(),
+                       cadetStats.get(i).getBSex());
+               numPoc++;
+           }
+       }
+       averagePocSScore = allPocSScores/numPoc;
+       return averagePocSScore; 
+   }
+   
+   public double pocPushupAverageScore(){
+       int numPoc = 0;
+       double allPocPScores = 0;
+       double averagePocPScore;
+       for(int i = 0;i < cadetStats.size();i++){
+           if(cadetStats.get(i).getNumAsYear() == 300 ||
+                   cadetStats.get(i).getNumAsYear() == 400 ||
+                   cadetStats.get(i).getNumAsYear() == 450 ||
+                   cadetStats.get(i).getNumAsYear() == 700 ||
+                   cadetStats.get(i).getNumAsYear() == 800){
+               allPocPScores += cadetStats.get(i).pushUpScore(
+                       cadetStats.get(i).getNumPushUps(),
+                       cadetStats.get(i).getNumAge(),
+                       cadetStats.get(i).getBSex());
+               numPoc++;
+           }
+       }
+       averagePocPScore = allPocPScores/numPoc;
+       return averagePocPScore;
+   }
+   
+   public double pocRunAverageScore(){
+       int numPoc = 0;
+       double allPocRScores = 0;
+       double averagePocRScore;
+       for(int i = 0;i < cadetStats.size();i++){
+           if(cadetStats.get(i).getNumAsYear() == 300 ||
+                   cadetStats.get(i).getNumAsYear() == 400 ||
+                   cadetStats.get(i).getNumAsYear() == 450 ||
+                   cadetStats.get(i).getNumAsYear() == 700 ||
+                   cadetStats.get(i).getNumAsYear() == 800){
+               allPocRScores += cadetStats.get(i).runScore(
+                       cadetStats.get(i).getNumRunTime(),
+                       cadetStats.get(i).getNumAge(),
+                       cadetStats.get(i).getBSex());
+               numPoc++;
+           }
+       }
+       averagePocRScore = allPocRScores/numPoc;
+       return averagePocRScore;
+   }
+   
+   public double pocAbAverageScore(){
+       int numPoc = 0;
+       double allPocAScores = 0;
+       double averagePocAScore;
+       for(int i = 0;i < cadetStats.size();i++){
+           if(cadetStats.get(i).getNumAsYear() == 300 ||
+                   cadetStats.get(i).getNumAsYear() == 400 ||
+                   cadetStats.get(i).getNumAsYear() == 450 ||
+                   cadetStats.get(i).getNumAsYear() == 700 ||
+                   cadetStats.get(i).getNumAsYear() == 800){
+               allPocAScores += cadetStats.get(i).waistScore(
+                       cadetStats.get(i).getNumWaist(),
+                       cadetStats.get(i).getNumAge(),
+                       cadetStats.get(i).getBSex());
+               numPoc++;
+           }
+       }
+       averagePocAScore = allPocAScores/numPoc;
+       return averagePocAScore;
+   }
+   
+   public double pocRepStats(String component){
+       double answer = 0;
+           if(component == "pushups"){
+               answer = pocPushupAverageRep();
+           }
+           if(component == "situps"){
+               answer = pocSitupAverageRep();
+           }
+           if(component == "run"){
+               answer = pocRunAverageTime();
+           }
+           if(component == "ab"){
+               answer = pocAbAverageSize();
+           }  
+       return answer;
+   }
+   
+   public double pocPushupAverageRep(){
+       double allPocPReps = 0;
+       double averagePocPReps;
+       int numPoc = 0;
+       for(int i = 0;i < cadetStats.size();i++){
+           if(cadetStats.get(i).getNumAsYear() == 300 ||
+                   cadetStats.get(i).getNumAsYear() == 400 ||
+                   cadetStats.get(i).getNumAsYear() == 450 ||
+                   cadetStats.get(i).getNumAsYear() == 700 ||
+                   cadetStats.get(i).getNumAsYear() == 800){
+               allPocPReps += cadetStats.get(i).getNumPushUps();
+               numPoc++;
+           }
+       }
+       averagePocPReps = allPocPReps/numPoc;
+       return averagePocPReps; 
+   }
+   
+   public double pocSitupAverageRep(){
+       int numPoc = 0;
+       double allPocSReps = 0;
+       double averagePocSReps;
+       for(int i = 0;i < cadetStats.size();i++){
+           if(cadetStats.get(i).getNumAsYear() == 300 ||
+                   cadetStats.get(i).getNumAsYear() == 400 ||
+                   cadetStats.get(i).getNumAsYear() == 450 ||
+                   cadetStats.get(i).getNumAsYear() == 700 ||
+                   cadetStats.get(i).getNumAsYear() == 800){
+               allPocSReps += cadetStats.get(i).getNumSitUps();
+               numPoc++;
+           }
+       }
+       averagePocSReps = allPocSReps/numPoc;
+       return averagePocSReps;
+   }
+   
+   public double pocRunAverageTime(){
+       int numPoc = 0;
+       double allPocRTime = 0;
+       double averagePocRTime;
+       for(int i = 0;i < cadetStats.size();i++){
+           if(cadetStats.get(i).getNumAsYear() == 300 ||
+                   cadetStats.get(i).getNumAsYear() == 400 ||
+                   cadetStats.get(i).getNumAsYear() == 450 ||
+                   cadetStats.get(i).getNumAsYear() == 700 ||
+                   cadetStats.get(i).getNumAsYear() == 800){
+               allPocRTime += cadetStats.get(i).getNumRunTime();
+               numPoc++;
+           }
+       }
+       averagePocRTime = allPocRTime/numPoc;
+       return averagePocRTime;
+   }
+   
+   public double pocAbAverageSize(){
+       int numPoc = 0;
+       double allPocASize = 0;
+       double averagePocASize;
+       for(int i = 0;i < cadetStats.size();i++){
+           if(cadetStats.get(i).getNumAsYear() == 300 ||
+                   cadetStats.get(i).getNumAsYear() == 400 ||
+                   cadetStats.get(i).getNumAsYear() == 450 ||
+                   cadetStats.get(i).getNumAsYear() == 700 ||
+                   cadetStats.get(i).getNumAsYear() == 800){
+               allPocASize += cadetStats.get(i).getNumWaist();
+               numPoc++;
+           }
+       }
+       averagePocASize = allPocASize/numPoc;
+       return averagePocASize; 
+   }
+       
 }

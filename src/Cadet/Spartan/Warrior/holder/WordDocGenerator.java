@@ -5,31 +5,33 @@
  */
 package Cadet.Spartan.Warrior.holder;
 import java.awt.Desktop;
-import java.io.DataInputStream;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
-import org.apache.xmlbeans.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.application.Application;
+import static javafx.application.Application.launch;
+import javafx.geometry.HPos;
+import javafx.scene.Scene;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import static org.apache.poi.sl.draw.binding.STRectAlignment.CTR;
 import org.apache.poi.util.Units;
-import org.apache.poi.wp.usermodel.HeaderFooterType;
 import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
-import org.apache.poi.xwpf.usermodel.XWPFFooter;
-import org.apache.poi.xwpf.usermodel.XWPFHeader;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.ChartUtilities;
@@ -39,14 +41,10 @@ import org.jfree.chart.labels.ItemLabelAnchor;
 import org.jfree.chart.labels.ItemLabelPosition;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.PiePlot;
-import org.jfree.chart.plot.PiePlot3D;
-import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.ui.TextAnchor;
-import static org.openxmlformats.schemas.drawingml.x2006.main.STPenAlignment.CTR;
-import static org.openxmlformats.schemas.drawingml.x2006.main.STTextAlignType.CTR;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTP;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTR;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTSectPr;
@@ -55,14 +53,17 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTText;
  *
  * @author Christopher
  */
-public class WordDocGenerator {
-    private int numFails, numPass;
-    private double avgScore,avgPScore,avgSScore,avgRScore,avgWScore;
-    private double stdDevScore,stdDevPScore,stdDevSScore,stdDevRScore,stdDevWScore;
-    private double avg100Score,avg200Score,avg250Score,avg300Score,avg400Score,
+public class WordDocGenerator{
+    private Stage stage;
+    private DatePicker pickDate;
+    private final int numFails, numPass;
+    private final double avgScore,avgPScore,avgSScore,avgRScore,avgWScore;
+    private final double stdDevScore,stdDevPScore,stdDevSScore,stdDevRScore,stdDevWScore;
+    private final double avg100Score,avg200Score,avg250Score,avg300Score,avg400Score,
             avg450Score,avg700Score,avg800Score;
-    private ArrayList<Cadet> cadets;
-    private String date, topFailedExercise;
+    private final ArrayList<Cadet> cadets;
+    private String date;
+    private final String topFailedExercise;
     
     WordDocGenerator(int fails,int pass, double avgScore,double avgPScore,
      double avgSScore, double avgRScore, double avgWScore, double stdDevScore,
@@ -93,14 +94,16 @@ public class WordDocGenerator {
         this.cadets = cadets;
         this.topFailedExercise = topFailedExercise;
     }
+
     
     public void getDate(){
-        date = JOptionPane.showInputDialog("Please enter the date of the Fitness Assesment");
+        //TODO Add calendar select feature for date
+        //Temp value
+        date = "21 May 2018";
     }
 
     public void createWord(List<String> lines) throws IOException, InvalidFormatException {
         getDate();
-        createCharts();
         for (String line : lines) {
             //Blank Document
             MainMenu main = new MainMenu();
@@ -145,24 +148,45 @@ public class WordDocGenerator {
             XWPFParagraph paragraph2 = document.createParagraph();
             paragraph2.setAlignment(ParagraphAlignment.LEFT);
             XWPFRun run2 = paragraph2.createRun();
-            run2.setFontSize(12);
-            run2.setText("Average FA score: "+avgScore);
+            run2.setFontSize(18);
+            run2.setBold(true);
+            run2.setText("Introduction:");
             run2.addBreak();
-            run2.setText("Number of failing scores: "+numFails);
-            run2.addBreak();
-            run2.setText("Number of passing scores: "+numPass);
-            run2.addBreak();
-            run2.setText(topFailedExercise);
             XWPFParagraph paragraph3 = document.createParagraph();
-            XWPFRun run3 = paragraph3.createRun();
+            paragraph3.setAlignment(ParagraphAlignment.LEFT);
+            XWPFRun run3 = paragraph2.createRun();
+            run3.setFontSize(12);
+            run3.addTab();
+            run3.setText("The AFROTC Fitness Statistics report is an automated"
+                    + " report designed to assist Physical Fitness Officers, "
+                    + "Cadre, or interested third parties in quickly obtaining"
+                    + " statistics for a large body of cadets. Decision actions"
+                    + " recommended within this report are contingent upon local"
+                    + " parameters and currently programmed "
+                    + "intelligence.(V0.1)");
+            XWPFParagraph paragraph4 = document.createParagraph();
+            paragraph4.setAlignment(ParagraphAlignment.LEFT);
+            XWPFRun run4 = paragraph4.createRun();
+            run4.setFontSize(12);
+            run4.addBreak();
+            run4.setText("Average FA score: "+avgScore);
+            run4.addBreak();
+            run4.setText("Number of failing scores: "+numFails);
+            run4.addBreak();
+            run4.setText("Number of passing scores: "+numPass);
+            run4.addBreak();
+            run4.setText(topFailedExercise);
+            run4.addBreak();
+            XWPFParagraph paragraph5 = document.createParagraph();
+            XWPFRun run5 = paragraph5.createRun();
             InputStream pic1 = new FileInputStream("Pass vs. Fail chart.jpeg");
             InputStream pic2 = new FileInputStream("Average score by AS Year.jpeg");
             InputStream pic3 = new FileInputStream("Average score by school.jpeg");
-            run3.addPicture(pic1, XWPFDocument.PICTURE_TYPE_JPEG,
+            run4.addPicture(pic1, XWPFDocument.PICTURE_TYPE_JPEG,
                     "Pass vs. Fail chart.jpeg",Units.toEMU(300),Units.toEMU(250));
-            run3.addPicture(pic2,XWPFDocument.PICTURE_TYPE_JPEG,
+            run4.addPicture(pic2,XWPFDocument.PICTURE_TYPE_JPEG,
                     "Average score by AS Year.jpeg",Units.toEMU(300),Units.toEMU(250));
-            run3.addPicture(pic3,XWPFDocument.PICTURE_TYPE_JPEG,
+            run4.addPicture(pic3,XWPFDocument.PICTURE_TYPE_JPEG,
                     "Average score by school.jpeg",Units.toEMU(300),Units.toEMU(250));
             document.write(out);
             out.close();
@@ -171,87 +195,10 @@ public class WordDocGenerator {
                 }
             else{
             JOptionPane.showMessageDialog(null,"Output not supported by your"
-                    + " Desktop.\n"
+                    + " Device.\n"
                     + "Check security settings.");
                 }
             System.out.println("\nDOCX CREATED");
         }
     }
-    
-    public void createCharts() throws IOException{
-            failVsPassChart();
-            avgScoreByYearChart();
-            avgScoreBySchoolChart();
-    }
-    
-    public void failVsPassChart() throws FileNotFoundException, IOException{
-        DefaultPieDataset pieDataset = new DefaultPieDataset();
-        pieDataset.setValue("Passing cadets", numPass);
-        pieDataset.setValue("Failing cadets", numFails);
-        JFreeChart chart = ChartFactory.createPieChart("Pass vs. Fail chart.jpeg",
-                pieDataset, true, true, true);
-        PiePlot plot = (PiePlot) chart.getPlot();
-        plot.setLabelGenerator(new StandardPieSectionLabelGenerator("{2}"));
-        String home = System.getProperty("user.home");
-        try{
-           final ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
-           final File chart1 = new File("Pass vs. Fail chart.jpeg");
-           ChartUtilities.saveChartAsPNG(chart1, chart, 600, 400, info);
-        }
-        catch(Exception e){
-            
-        }
-    
-}
-    
-    public void avgScoreByYearChart() throws FileNotFoundException, IOException{
-        
-        DefaultCategoryDataset barData = new DefaultCategoryDataset();
-        barData.addValue(avg100Score, "100", "GMC Score");
-        barData.addValue(avg200Score, "200", "GMC Score");
-        barData.addValue(avg250Score,"250","GMC Score");
-        barData.addValue(avg300Score,"300","POC Score");
-        barData.addValue(avg400Score,"400","POC Score");
-        barData.addValue(avg450Score,"450","POC Score");
-        barData.addValue(avg700Score,"700","POC Score");
-        barData.addValue(avg800Score,"800","POC Score");
-        JFreeChart barChart = ChartFactory.createBarChart(
-         "Average score by AS Year", "AS Year", "Average Score",barData);
-        BarRenderer render = new BarRenderer();
-        render.setPositiveItemLabelPositionFallback(new ItemLabelPosition(
-        ItemLabelAnchor.CENTER,TextAnchor.CENTER));
-         try{
-           final ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
-           final File chart1 = new File("Average score by AS Year.jpeg");
-           ChartUtilities.saveChartAsPNG(chart1, barChart, 600, 400, info);
-        }
-        catch(Exception e){
-            
-        }
-        
-    }
-    
-    public void avgScoreBySchoolChart() throws FileNotFoundException, IOException{
-        Calculation calc = new Calculation(cadets);
-        DefaultCategoryDataset barData = new DefaultCategoryDataset();
-        barData.addValue(calc.avgScoreBySchool("MSU"), "MSU", "MSU Score");
-        barData.addValue(calc.avgScoreBySchool("WMU"), "WMU", "WMU Score");
-        barData.addValue(calc.avgScoreBySchool("CMU"),"CMU","CMU Score");
-        barData.addValue(calc.avgScoreBySchool("LCC"),"LCC","LCC Score");
-        JFreeChart barChart = ChartFactory.createBarChart(
-         "Average score by School", "School", "Average Score",barData);
-        BarRenderer render = new BarRenderer();
-        render.setPositiveItemLabelPositionFallback(new ItemLabelPosition(
-        ItemLabelAnchor.CENTER,TextAnchor.CENTER));
-         try{
-           final ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
-           File chart1 = new File("Average score by school.jpeg");
-           ChartUtilities.saveChartAsPNG(chart1, barChart, 600, 400, info);
-        }
-        catch(Exception e){
-            
-        }
-    }
-    
-    
 }

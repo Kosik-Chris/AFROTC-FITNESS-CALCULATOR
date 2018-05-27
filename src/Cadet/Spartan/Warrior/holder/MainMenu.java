@@ -7,47 +7,28 @@ package Cadet.Spartan.Warrior.holder;
 
 import java.awt.Desktop;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 import java.io.File;  
-import java.io.FileNotFoundException;
-
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
 import java.util.Arrays;
 import java.util.List;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.chart.PieChart;
+import javafx.scene.paint.Color;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.xwpf.usermodel.VerticalAlign;
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
-import org.apache.poi.xwpf.usermodel.XWPFParagraph;
-import org.apache.poi.xwpf.usermodel.XWPFRun;
-import org.jfree.chart.*;
-import org.jfree.data.general.*;
 
 /**
  *
@@ -89,10 +70,10 @@ public class MainMenu extends Application {
                 + " assist in obtaining detachment wide PT statistics.\n This "
                 + "program generates a report for you\n after you have finished"
                 + " entering in cadets PT results.");
-        
+        label1.setTextFill(Color.web("#000000"));
         label1.setWrapText(true);
-        label1.setLayoutX(0);
-        label1.setLayoutY(375);
+        label1.setLayoutX(25);
+        label1.setLayoutY(440);
         DataInput();
         //**********************MAIN LAYOUT FOR DATA************************
         border = new BorderPane();
@@ -160,6 +141,7 @@ public class MainMenu extends Application {
     }
     
     public void DataInput(){
+        try{
         backBtn = new Button();
         backBtn.setText("Main Menu");
         backBtn.getStyleClass().add("dark-blue");
@@ -231,13 +213,20 @@ public class MainMenu extends Application {
         btnHolder.setPadding(new Insets(15, 12, 15, 12));
         btnHolder.setSpacing(10);
         btnHolder.getChildren().addAll(addCadetBtn,finishedBtn,backBtn);
+        }catch(Exception e ){
+            System.out.println("Data Input error");
+        }
         
     }
 
     public void newCadet(){
+        try{
         c =  new Cadet(pushUps,sitUps,asYear, school,age,runTime,name,
                         waist,weight,bmi,height,sex);
                 cadets.add(c);
+        }catch(Exception e){
+            System.out.println("New cadet error");
+        }
     }
     
     public void FileInputAction(String name,String sex,String asYear,
@@ -282,20 +271,22 @@ public class MainMenu extends Application {
         }catch(NumberFormatException e){
             JOptionPane.showMessageDialog(null,"ERROR WITH INPUT");
         }
+        catch(Exception e){
+            System.out.println("File Input error");
+        }
         
     }
     
     public void InputAction(){
         //TODO work on exceptions and user interface aspects
         try{
-        name = this.nameText.getText();
         if(this.sexText.getText().toUpperCase().charAt(0) == 'M'){
             sex = true;
         }
         if(this.sexText.getText().toUpperCase().charAt(0) == 'F'){
             sex = false;
         }
-        asYear = Integer.parseInt(this.asYearText.getText());
+        name = this.nameText.getText();
         if(this.schoolText.getText().toUpperCase().charAt(0) == 'W'){
             school = "WMU";
         }
@@ -308,14 +299,14 @@ public class MainMenu extends Application {
         if(this.schoolText.getText().toUpperCase().charAt(0) == 'L'){
             school = "LCC";
         }
-        
-        age = Integer.parseInt(this.ageText.getText());
+        asYear = Integer.parseInt(this.asYearText.getText());
         while(age >39){
            JOptionPane.showMessageDialog(null, "Maxmimum age currently supported"
                    + "is 39 years.");
            age = Integer.parseInt(JOptionPane.showInputDialog(null,
                "Enter cadet age"));
        }
+        age = Integer.parseInt(this.ageText.getText());
         height = Double.parseDouble(this.heightText.getText());
         weight = Double.parseDouble(this.weightText.getText());
         waist = Double.parseDouble(this.abText.getText());
@@ -326,7 +317,11 @@ public class MainMenu extends Application {
         sec = Integer.parseInt(time[1]);
         runTime = sec + (mins*60);
         }catch(NumberFormatException e){
-            JOptionPane.showMessageDialog(null,"ERROR WITH INPUT");
+            JOptionPane.showMessageDialog(null,"INPUT ACTION ERROR");
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,"INPUT ACTION ERROR");
+            
         }
         
     }
@@ -382,11 +377,12 @@ public class MainMenu extends Application {
         write.close();
         //Outputs pdf of file to documents
         if(Desktop.isDesktopSupported() == true){
-//        Desktop.getDesktop().print(file);
+        //Desktop.getDesktop().print(file);
+        Desktop.getDesktop().open(file);
         }
         else{
             JOptionPane.showMessageDialog(null,"Output not supported by your"
-                    + " Desktop.\n"
+                    + " Device.\n"
                     + "Check security settings.");
         }
     }
@@ -394,11 +390,12 @@ public class MainMenu extends Application {
      * This method will create the statistics file!
      * Includes all relevant graphs etc.
      * @throws java.io.IOException
+     * @throws org.apache.poi.openxml4j.exceptions.InvalidFormatException
      */
     public void printStatistics() throws IOException, InvalidFormatException{
-        Calculation calc = new Calculation(cadets);
-        List<String> lines = Arrays.asList("Hello","hi");
-        
+        Calculation calc = new Calculation(cadets);        
+        List<String> lines = Arrays.asList("","");
+        makeCharts();
         WordDocGenerator doc = new WordDocGenerator(
         calc.countFails(),calc.getNumPass(),calc.averageScore(),calc.averagePScore(),
         calc.averageSScore(),calc.averageRScore(),calc.averageWScore(),
@@ -409,6 +406,20 @@ public class MainMenu extends Application {
          cadets,calc.topFailedExercise());
         //Create word document according to lines
         doc.createWord(lines);
+    }
+    
+    public void makeCharts() throws IOException{
+        Calculation calc = new Calculation(cadets); 
+        ChartGeneration chart = new ChartGeneration(calc.countFails(),
+                calc.getNumPass(),calc.averageScore(),calc.averagePScore(),
+        calc.averageSScore(),calc.averageRScore(),calc.averageWScore(),
+        calc.standardDevTotScore(),calc.standardDevPScore(),calc.standardDevSScore(),
+        calc.standardDevRScore(),calc.standardDevWScore(),calc.avg100Score(),
+        calc.avg200Score(),calc.avg250Score(),calc.avg300Score(),calc.avg400Score(
+        ),calc.avg450Score(),calc.avg700Score(),calc.avg800Score(),
+         cadets,calc.topFailedExercise());
+        
+        chart.createCharts();
     }
     
 

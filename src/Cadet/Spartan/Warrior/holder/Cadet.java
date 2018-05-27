@@ -10,11 +10,12 @@ package Cadet.Spartan.Warrior.holder;
  * @author Christopher
  */
 public class Cadet {
-   private  int pushUps,sitUps,asYear,age,runTime;
-   private  String name,school;
-   private  double waist,totalScore,pScore,sScore,rScore,wScore,weight,bmi
-           ,height;
-   private  boolean sex, passOrFail;
+   private final int pushUps,sitUps,asYear,age,runTime;
+   private final String name,school;
+   private final double waist,weight,bmi,height;
+   private final boolean sex;
+   private  double totalScore,pScore,sScore,rScore,wScore;
+   private  boolean passOrFail;
    private  String scoreValue;
    //Constructor
      public Cadet(int pushUps,int sitUps,int asYear,String school,int age,int runTime,
