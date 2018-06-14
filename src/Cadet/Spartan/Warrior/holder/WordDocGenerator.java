@@ -179,15 +179,149 @@ public class WordDocGenerator{
             run4.addBreak();
             XWPFParagraph paragraph5 = document.createParagraph();
             XWPFRun run5 = paragraph5.createRun();
-            InputStream pic1 = new FileInputStream("Pass vs. Fail chart.jpeg");
-            InputStream pic2 = new FileInputStream("Average score by AS Year.jpeg");
-            InputStream pic3 = new FileInputStream("Average score by school.jpeg");
-            run4.addPicture(pic1, XWPFDocument.PICTURE_TYPE_JPEG,
-                    "Pass vs. Fail chart.jpeg",Units.toEMU(300),Units.toEMU(250));
-            run4.addPicture(pic2,XWPFDocument.PICTURE_TYPE_JPEG,
-                    "Average score by AS Year.jpeg",Units.toEMU(300),Units.toEMU(250));
-            run4.addPicture(pic3,XWPFDocument.PICTURE_TYPE_JPEG,
-                    "Average score by school.jpeg",Units.toEMU(300),Units.toEMU(250));
+            //"C:\Users\Christopher\Desktop\Special Programs\AFROTC Fitness Calculator\src\resources\charts"
+            //"C:\Users\Christopher\Desktop\Special Programs\AFROTC Fitness Calculator\src\resources\tables"
+            InputStream passVFailPic = new FileInputStream("C:\\Users\\"
+                    + "Christopher\\Desktop\\Special Programs\\"
+                    + "AFROTC Fitness Calculator\\src\\resources"
+                    + "\\charts\\Pass vs. Fail chart.jpeg");
+            InputStream avgScoreASPic = new FileInputStream("C:\\Users\\"
+                    + "Christopher\\Desktop\\Special Programs\\"
+                    + "AFROTC Fitness Calculator\\src\\resources\\"
+                    + "charts\\Average score by AS Year.jpeg");
+            InputStream avgScoreSchoolPic = new FileInputStream("C:\\Users\\"
+                    + "Christopher\\Desktop\\Special Programs\\"
+                    + "AFROTC Fitness Calculator\\src\\resources\\"
+                    + "charts\\Average score by school.jpeg");
+            InputStream avgScoreTable = new FileInputStream("C:\\Users\\"
+                    + "Christopher\\Desktop\\Special Programs\\"
+                    + "AFROTC Fitness Calculator\\src\\resources\\"
+                    + "tables\\Average Scores Table.jpeg");
+            InputStream totAvgScoreTable = new FileInputStream("C:\\Users\\"
+                    + "Christopher\\Desktop\\Special Programs\\"
+                    + "AFROTC Fitness Calculator\\src\\resources\\"
+                    + "tables\\Total Average Scores Table.jpeg");
+            InputStream avgScoreCompFTable = new FileInputStream("C:\\Users\\"
+                    + "Christopher\\Desktop\\Special Programs\\"
+                    + "AFROTC Fitness Calculator\\src\\resources\\"
+                    + "tables\\Average Scores per Component Females"
+                    + " table.jpeg");
+            InputStream avgScoreCompMTable = new FileInputStream("C:\\Users\\"
+                    + "Christopher\\Desktop\\Special Programs\\"
+                    + "AFROTC Fitness Calculator\\src\\resources\\"
+                    + "tables\\Average Scores per Component "
+                    + "Males table.jpeg");
+            InputStream avgRepTimeTable = new FileInputStream("C:\\Users\\"
+                    + "Christopher\\Desktop\\Special Programs\\"
+                    + "AFROTC Fitness Calculator\\src\\resources\\"
+                    + "tables\\Average Repetitions and Time table.jpeg");
+            InputStream situpMTable = new FileInputStream("C:\\Users\\"
+                    + "Christopher\\Desktop\\Special Programs\\"
+                    + "AFROTC Fitness Calculator\\src\\resources\\"
+                    + "tables\\Situps table Male.jpeg");
+            InputStream situpFTable = new FileInputStream("C:\\Users\\"
+                    + "Christopher\\Desktop\\Special Programs\\"
+                    + "AFROTC Fitness Calculator\\src\\resources\\"
+                    + "tables\\Situps table Female.jpeg");
+            InputStream pushupsFTable = new FileInputStream("C:\\Users\\"
+                    + "Christopher\\Desktop\\Special Programs\\"
+                    + "AFROTC Fitness Calculator\\src\\resources\\"
+                    + "tables\\Pushups table Female.jpeg");
+            InputStream pushupsMTable = new FileInputStream("C:\\Users\\"
+                    + "Christopher\\Desktop\\Special Programs\\"
+                    + "AFROTC Fitness Calculator\\src\\resources\\"
+                    + "tables\\Pushups table Male.jpeg");
+            InputStream runFTable = new FileInputStream("C:\\Users\\Christopher"
+                    + "\\Desktop\\Special Programs\\AFROTC Fitness Calculator\\"
+                    + "src\\resources\\tables\\Run table Female.jpeg");
+            InputStream runMTable = new FileInputStream("C:\\Users\\"
+                    + "Christopher\\Desktop\\Special Programs\\"
+                    + "AFROTC Fitness Calculator\\src\\resources\\"
+                    + "tables\\Run table Male.jpeg");
+            run4.addPicture(passVFailPic, XWPFDocument.PICTURE_TYPE_JPEG,
+                    "C:\\Users\\Christopher\\Desktop\\Special Programs\\"
+                            + "AFROTC Fitness Calculator\\src\\resources\\"
+                            + "charts\\"
+                            + "Pass vs. Fail chart.jpeg"
+                    ,Units.toEMU(300),Units.toEMU(250));
+            run4.addPicture(avgScoreASPic,XWPFDocument.PICTURE_TYPE_JPEG,
+                    "C:\\Users\\Christopher\\Desktop\\Special Programs\\"
+                            + "AFROTC Fitness Calculator\\src\\resources\\"
+                            + "charts\\Average score by AS Year.jpeg"
+                    ,Units.toEMU(300),Units.toEMU(250));
+            run4.addPicture(avgScoreSchoolPic,XWPFDocument.PICTURE_TYPE_JPEG,
+                    "C:\\Users\\Christopher\\Desktop\\Special Programs\\"
+                            + "AFROTC Fitness Calculator\\src\\resources\\"
+                            + "charts\\Average score by school.jpeg"
+                    ,Units.toEMU(300),Units.toEMU(250));
+            run4.addBreak();
+            run5.addPicture(avgScoreTable,XWPFDocument.PICTURE_TYPE_JPEG,"C:\\"
+                    + "Users\\Christopher\\Desktop\\Special Programs\\"
+                    + "AFROTC Fitness Calculator\\src\\resources\\t"
+                    + "ables\\Average Scores Table.jpeg",
+                    Units.toEMU(300),Units.toEMU(250));
+            run5.addBreak();
+            run5.addPicture(totAvgScoreTable,XWPFDocument.PICTURE_TYPE_JPEG,"C:"
+                    + "\\Users\\Christopher\\Desktop\\Special Programs\\"
+                    + "AFROTC Fitness Calculator\\src\\resources\\"
+                    + "tables\\Total Average Scores Table.jpeg",
+                    Units.toEMU(300),Units.toEMU(250));
+            run5.addBreak();
+            run5.addPicture(avgScoreCompFTable,XWPFDocument.PICTURE_TYPE_JPEG,""
+                    + "C:\\Users\\Christopher\\Desktop\\Special Programs\\"
+                    + "AFROTC Fitness Calculator\\src\\resources\\"
+                    + "tables\\Average Scores per Component Females table.jpeg",
+                    Units.toEMU(300),Units.toEMU(250));
+            run5.addBreak();
+            run5.addPicture(avgScoreCompMTable,XWPFDocument.PICTURE_TYPE_JPEG,""
+                    + "C:\\Users\\Christopher\\Desktop\\Special Programs\\"
+                    + "AFROTC Fitness Calculator\\src\\resources\\"
+                    + "tables\\Average Scores per Component "
+                    + "Males table.jpeg",
+                    Units.toEMU(300),Units.toEMU(250));
+            run5.addBreak();
+            run5.addPicture(avgRepTimeTable,XWPFDocument.PICTURE_TYPE_JPEG,""
+                    + "C:\\Users\\Christopher\\Desktop\\Special Programs\\"
+                    + "AFROTC Fitness Calculator\\src\\resources\\"
+                    + "tables\\Average Repetitions and Time table.jpeg",
+                    Units.toEMU(300),Units.toEMU(250));
+            run5.addBreak();
+            run5.addPicture(situpMTable,XWPFDocument.PICTURE_TYPE_JPEG,""
+                    + "C:\\Users\\Christopher\\Desktop\\Special Programs\\"
+                    + "AFROTC Fitness Calculator\\src\\resources\\"
+                    + "tables\\Situps table Male.jpeg",
+                    Units.toEMU(300),Units.toEMU(250));
+            run5.addBreak();
+            run5.addPicture(situpFTable,XWPFDocument.PICTURE_TYPE_JPEG,""
+                    + "C:\\Users\\Christopher\\Desktop\\Special Programs\\"
+                    + "AFROTC Fitness Calculator\\src\\resources\\"
+                    + "tables\\Situps table Female.jpeg",
+                    Units.toEMU(300),Units.toEMU(250));
+            run5.addBreak();
+            run5.addPicture(pushupsFTable,XWPFDocument.PICTURE_TYPE_JPEG,""
+                    + "C:\\Users\\Christopher\\Desktop\\Special Programs\\"
+                    + "AFROTC Fitness Calculator\\src\\resources\\"
+                    + "tables\\Pushups table Female.jpeg",
+                    Units.toEMU(300),Units.toEMU(250));
+            run5.addBreak();
+            run5.addPicture(pushupsMTable,XWPFDocument.PICTURE_TYPE_JPEG,""
+                    + "C:\\Users\\Christopher\\Desktop\\Special Programs\\"
+                    + "AFROTC Fitness Calculator\\src\\resources\\"
+                    + "tables\\Pushups table Male.jpeg",
+                    Units.toEMU(300),Units.toEMU(250));
+            run5.addBreak();
+            run5.addPicture(runFTable ,XWPFDocument.PICTURE_TYPE_JPEG,""
+                    + "C:\\Users\\Christopher\\Desktop\\Special Programs\\"
+                    + "AFROTC Fitness Calculator\\src\\resources\\"
+                    + "tables\\Run table Female.jpeg",
+                    Units.toEMU(300),Units.toEMU(250));
+            run5.addBreak();
+            run5.addPicture(runMTable ,XWPFDocument.PICTURE_TYPE_JPEG,""
+                    + "C:\\Users\\Christopher\\Desktop\\Special Programs\\"
+                    + "AFROTC Fitness Calculator\\src\\resources\\"
+                    + "tables\\Run table Male.jpeg",
+                    Units.toEMU(300),Units.toEMU(250));
+            run5.addBreak();
             document.write(out);
             out.close();
             if(Desktop.isDesktopSupported() == true){

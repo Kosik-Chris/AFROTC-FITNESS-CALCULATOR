@@ -152,9 +152,7 @@ public class FileChooser extends javax.swing.JFrame {
             Logger.getLogger(FileChooser.class.getName()).log(Level.SEVERE, null, ex);
         }
         catch(ArrayIndexOutOfBoundsException e){
-            JOptionPane.showMessageDialog(null, "Please check to ensure you have"
-                    + " selected the proper CSV file.\n"
-                    + "The system is registering an error with your file.");
+            JOptionPane.showMessageDialog(null, "ArrayIndexOutOfBounds");
         }
         catch(NullPointerException e){
             JOptionPane.showMessageDialog(null, "Please check to ensure you have"

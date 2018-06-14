@@ -12,7 +12,7 @@ import org.apache.commons.lang3.math.NumberUtils;
  *
  * @author Christopher
  */
-public class Calculation {
+public class BaseCalc {
    ArrayList<Cadet> cadetStats;
 //   ArrayList<Integer> duplicateFind = new ArrayList<Integer>();
    private int numFails,numZeroP,numZeroS,numZeroR,numZeroW,asYear;
@@ -20,7 +20,7 @@ public class Calculation {
            numPocFemales,numHostMales,numHostFemales,numCrosstownMales,
            numCrosstownFemales;
    private Boolean Sex;
-   public Calculation(ArrayList<Cadet> cadets){
+   public BaseCalc(ArrayList<Cadet> cadets){
        this.cadetStats = cadets;
    }
    

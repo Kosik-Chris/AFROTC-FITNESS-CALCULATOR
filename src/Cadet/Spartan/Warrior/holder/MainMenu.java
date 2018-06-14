@@ -393,7 +393,7 @@ public class MainMenu extends Application {
      * @throws org.apache.poi.openxml4j.exceptions.InvalidFormatException
      */
     public void printStatistics() throws IOException, InvalidFormatException{
-        Calculation calc = new Calculation(cadets);        
+        BaseCalc calc = new BaseCalc(cadets);        
         List<String> lines = Arrays.asList("","");
         makeCharts();
         WordDocGenerator doc = new WordDocGenerator(
@@ -409,7 +409,7 @@ public class MainMenu extends Application {
     }
     
     public void makeCharts() throws IOException{
-        Calculation calc = new Calculation(cadets); 
+        BaseCalc calc = new BaseCalc(cadets); 
         ChartGeneration chart = new ChartGeneration(calc.countFails(),
                 calc.getNumPass(),calc.averageScore(),calc.averagePScore(),
         calc.averageSScore(),calc.averageRScore(),calc.averageWScore(),
@@ -418,7 +418,6 @@ public class MainMenu extends Application {
         calc.avg200Score(),calc.avg250Score(),calc.avg300Score(),calc.avg400Score(
         ),calc.avg450Score(),calc.avg700Score(),calc.avg800Score(),
          cadets,calc.topFailedExercise());
-        
         chart.createCharts();
     }
     
